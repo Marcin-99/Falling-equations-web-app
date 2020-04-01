@@ -18,5 +18,6 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('falling-equations/', include('falling_equations.urls')),
+    path('', include('falling_equations.urls')),
+    path('falling-equations', include('equations_generator.urls')),
 ]

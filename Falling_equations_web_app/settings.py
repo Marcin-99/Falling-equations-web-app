@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'equations_generator.apps.EquationsGeneratorConfig',
     'falling_equations.apps.FallingEquationsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
