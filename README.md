@@ -3,5 +3,5 @@
 Main goals of the project:
 
 - Learn JavaScript
-- lear django
-- learn how to work with async code (Python and Javascript at the same time)
+- Learn django
+- Learn how to work with async code (Python and Javascript at the same time)
