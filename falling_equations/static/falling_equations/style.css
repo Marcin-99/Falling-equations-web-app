@@ -16,9 +16,5 @@ body {
 
 #canvas {
     background: #f0f0f0;
-    border-radius: 5px;
-}
-
-test {
-    color: red;
+    border-radius: 10px;
 }
