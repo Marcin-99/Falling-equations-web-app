@@ -2,6 +2,7 @@ let canvas = document.getElementById("canvas")
 let ctx = canvas.getContext("2d");
 let projectiles = [];
 let enemies = [];
+var LVL = 1;
 
 const GAME_WIDTH = canvas.width;
 const GAME_HEIGHT = canvas.height;
@@ -9,7 +10,7 @@ const GAME_HEIGHT = canvas.height;
 
 class Projectile {
     constructor (posX, posY, solution) {
-        this.width = 10;
+        this.width = 50;
         this.height = 50;
         this.solution = solution;
         this.speed = 150;
@@ -118,15 +119,18 @@ class Player {
 
 
 class Enemy {
-    constructor(posX, posY, equation) {
-        this.width = 200;
+    constructor(posX, posY, equation, solution) {
+        this.width = equation.length * 16.6;
         this.height = 4;
-        this.speed = 20;
+        this.speed = 10;
         this.position = {
             x: posX,
             y: posY,
         }
         this.equation = equation;
+        this.solution = solution;
+        console.log(this.equation);
+        console.log(this.solution);
     }
 
     draw(ctx) {
@@ -237,6 +241,7 @@ function makeStringFromData(data) {
 }
 
 
+/*Function sends request for needed data.*/
 const sendHttpRequest = (method, url) => {
     const promise = new Promise((resolve, reject) => {
         const Http = new XMLHttpRequest();
@@ -255,6 +260,8 @@ const sendHttpRequest = (method, url) => {
 };
 
 
+/*Get json response from given url, where Python script generates and solves random equation.*/
+/*Function waits untill process is resolved, then it calls pushNewEnemy() function.*/
 function getRandomEquation() {
     const url = "http://127.0.0.1:8000/falling-equations/equation";
 
@@ -262,21 +269,34 @@ function getRandomEquation() {
         const data = responseData["equation"];
         const solution = data[data.length - 1];
         data.pop();
+        data.pop();
         const equation = makeStringFromData(data);
 
-        console.log(equation);
-        console.log(solution);
+        randomEquation = {
+            equation: equation,
+            solution: solution,
+        }
 
-        pushNewEnemy(equation);
+        pushNewEnemy(randomEquation);
     });
 
     setTimeout('getRandomEquation()', 5000);
 }
 
 
+/*Push new enemy to a list with arguments given by previous function after getting json response from Python script*/
 function pushNewEnemy(randomEquation) {
-    console.log(randomEquation);
-    enemies.push(new Enemy(Math.floor(Math.random() * GAME_WIDTH), 10, randomEquation));
+    enemies.push(new Enemy(Math.floor(Math.random() * GAME_WIDTH), 10, randomEquation.equation, randomEquation.solution));
+}
+
+
+function isCollision(projectile, enemy)
+{
+   if(projectile.position.x + projectile.width > enemy.position.x && projectile.position.x < enemy.position.x + enemy.width &&
+   projectile.position.y < enemy.position.y + enemy.height && projectile.position.y + projectile.height > enemy.position.y)
+       return true;
+   else
+       return false;
 }
 
 
@@ -300,14 +320,31 @@ function gameLoop(timestamp) {
     player.update(deltaTime);
     player.draw(ctx);
 
+    /*Collision of projectiles with the wall. */
+    for(i = 0; i < projectiles.length; i++)
+    {
+        if(projectiles[i].position.y < 30) {
+            projectiles.splice(i, 1);
+            i--;
+        }
+    }
+
     for(i = 0; i < projectiles.length; i++)
     {
         projectiles[i].update(deltaTime);
         projectiles[i].draw(ctx);
 
-        if(projectiles[i].position.y < 30) {
-            projectiles.splice(i, 1);
-            i--;
+        /*Checking all collisions between enemies and projectiles*/
+        for(j = 0; j < enemies.length; j++)
+        {
+            if(isCollision(projectiles[i], enemies[j]))
+            {
+                console.log("KOLIZJA!!!!!!");
+                projectiles.splice(i, 1);
+                i--;
+                enemies.splice(j, 1);
+                j--;
+            }
         }
     }
 
@@ -326,17 +363,3 @@ function gameLoop(timestamp) {
 }
 
 gameLoop();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
