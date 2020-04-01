@@ -4,7 +4,7 @@ from . import utilities_for_equations_generator as utilities
 
 
 def generate_equation(request):
-    N=20
+    N=4
     while True:
         try:
             rownanie = utilities.generuj_rownanie(N)
@@ -22,4 +22,4 @@ def generate_equation(request):
     rownanie = list(map(str, rownanie))
     rownanie.append(str(wynik))
 
-    return JsonResponse({'results': rownanie})
+    return JsonResponse({'equation': rownanie})

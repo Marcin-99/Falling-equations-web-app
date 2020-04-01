@@ -2,12 +2,9 @@ let canvas = document.getElementById("canvas")
 let ctx = canvas.getContext("2d");
 let projectiles = [];
 let enemies = [];
-let enemyCreated = false;
 
 const GAME_WIDTH = canvas.width;
 const GAME_HEIGHT = canvas.height;
-
-ctx.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
 
 
 class Projectile {
@@ -15,7 +12,7 @@ class Projectile {
         this.width = 10;
         this.height = 50;
         this.solution = solution;
-        this.speed = 50;
+        this.speed = 150;
         this.position = {
         x: posX,
         y: posY,
@@ -23,19 +20,11 @@ class Projectile {
     }
 
     draw(ctx) {
-        ctx.beginPath();
-        ctx.arc(this.position.x, this.position.y, 28, 0, Math.PI * 2);
-        ctx.lineWidth = 4;
-
         ctx.fillStyle = "#00994d";
-        ctx.font = "30px Spicy Rice";
-        ctx.fill();
 
-        ctx.fillStyle = "#FFFFFF";
-
-        if(this.solution.length == 1) ctx.fillText(this.solution, this.position.x - 9, this.position.y + 12);
-        if(this.solution.length == 2) ctx.fillText(this.solution, this.position.x - 17, this.position.y + 12);
-        if(this.solution.length == 3) ctx.fillText(this.solution, this.position.x - 25, this.position.y + 12);
+        if(this.solution.length == 1) ctx.fillText(this.solution, this.position.x - 9, this.position.y + 4);
+        if(this.solution.length == 2) ctx.fillText(this.solution, this.position.x - 17, this.position.y + 4);
+        if(this.solution.length == 3) ctx.fillText(this.solution, this.position.x - 25, this.position.y + 4);
     }
 
     update(deltaTime) {
@@ -129,15 +118,15 @@ class Player {
 
 
 class Enemy {
-    constructor(posX, posY) {
+    constructor(posX, posY, equation) {
         this.width = 200;
         this.height = 4;
         this.speed = 20;
-        this.equation = "12+54*(31-54)"
         this.position = {
             x: posX,
             y: posY,
         }
+        this.equation = equation;
     }
 
     draw(ctx) {
@@ -237,20 +226,70 @@ class inputHandler {
 }
 
 
-function pushNewEnemy() {
-    enemies.push(new Enemy(Math.floor(Math.random() * GAME_WIDTH), 10));
-    setTimeout('pushNewEnemy()', 5000);
+function makeStringFromData(data) {
+    equation = "";
+    for(i = 0; i < data.length; i++)
+    {
+        equation += data[i];
+    }
+
+    return equation;
+}
+
+
+const sendHttpRequest = (method, url) => {
+    const promise = new Promise((resolve, reject) => {
+        const Http = new XMLHttpRequest();
+
+        Http.open(method, url);
+        Http.responseType = "json";
+
+        Http.onload = () => {
+            resolve(Http.response);
+        }
+
+    Http.send();
+    });
+
+    return promise;
+};
+
+
+function getRandomEquation() {
+    const url = "http://127.0.0.1:8000/falling-equations/equation";
+
+    sendHttpRequest('GET', url).then(responseData => {
+        const data = responseData["equation"];
+        const solution = data[data.length - 1];
+        data.pop();
+        const equation = makeStringFromData(data);
+
+        console.log(equation);
+        console.log(solution);
+
+        pushNewEnemy(equation);
+    });
+
+    setTimeout('getRandomEquation()', 5000);
+}
+
+
+function pushNewEnemy(randomEquation) {
+    console.log(randomEquation);
+    enemies.push(new Enemy(Math.floor(Math.random() * GAME_WIDTH), 10, randomEquation));
 }
 
 
 /*----------------------------------------------------- GAME SECTION --------------------------------------------------*/
+const Http = new XMLHttpRequest();
+const url = "http://127.0.0.1:8000/falling-equations/equation";
 
 let player = new Player(GAME_WIDTH, GAME_HEIGHT);
 new inputHandler(player);
 
 let lastTime = 0;
 
-pushNewEnemy();
+getRandomEquation();
 
 function gameLoop(timestamp) {
     let deltaTime = timestamp - lastTime;
@@ -283,7 +322,6 @@ function gameLoop(timestamp) {
         }
     }
 
-    console.log(projectiles.length);
     requestAnimationFrame(gameLoop);
 }
 
