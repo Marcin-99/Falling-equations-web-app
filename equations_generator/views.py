@@ -1,24 +1,23 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from . import utilities_for_equations_generator as utilities
+from equations_generator.equation_class import EquationGenerator
 
 
 def generate_equation(request, n=1):
+    min_value = -50
+    max_value = 50
+
     while True:
         try:
-            rownanie = utilities.generuj_rownanie(n)
-            rownanieONP = utilities.zamiana_na_ONP(rownanie)
-            wynik = utilities.obliczanie_ONP(rownanieONP)
-            if wynik > -50 and wynik < 50 and int(wynik) == wynik and utilities.sprawdz_bez_nawiasow(rownanie, wynik) == False:
+            generator = EquationGenerator(n)
+            generator.generate_equation()
+            generator.Reverse_Polish_Notation_algorithm()
+            generator.compute_Reverse_Polish_Notation()
+
+            if generator.handle_exceptions(min_value, max_value) == True:
+                generator.equation.append(generator.solution)
                 break
-        except OverflowError:
-            continue
-        except ZeroDivisionError:
-            continue
-        except TypeError:
+        except:
             continue
 
-    rownanie = list(map(str, rownanie))
-    rownanie.append(str(wynik))
-
-    return JsonResponse({'equation': rownanie})
+    return JsonResponse({'equation': generator.equation})
