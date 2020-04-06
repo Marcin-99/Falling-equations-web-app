@@ -1,9 +1,13 @@
 * {
     box-sizing: border-box;
+    margin-top: 0;
+    padding: 0;
+    list-style: none;
+    text-decoration: none;
 }
 
-body {
-    background-color: #666666;
+#content {
+    background-color: #ff9f80;
     color: #fff;
     display: flex;
     flex-direction: column;
@@ -11,10 +15,116 @@ body {
     justify-content: center;
     font-family: Arial, Helvetica, sans-serif;
     min-height: 100vh;
-    margin: 0;
+    margin-top: -24px;
 }
 
 #canvas {
+    width: 100%;
+    height: 100%;
     background: #f0f0f0;
     border-radius: 10px;
+}
+
+#menu {
+    position: fixed;
+    left: -250px;
+    width: 250px;
+    height: 540px;
+    background: #042331;
+    transition: all .5s ease;
+    font-family: 'Fredoka One', cursive;
+}
+
+#ShorterMenu {
+    position: fixed;
+    left: -250px;
+    width: 250px;
+    height: 472px;
+    background: #042331;
+    transition: all .5s ease;
+    font-family: 'Fredoka One', cursive;
+}
+
+#menu header, #ShorterMenu header {
+    font-size: 22px;
+    color: #ff9f80;
+    text-align: center;
+    line-height: 70px;
+    background: #063146;
+    user-select: none;
+}
+
+#menu ul .menuitem, #ShorterMenu ul .menuitem {
+    display: block;
+    height: 100%;
+    width: 100%;
+    line-height: 65px;
+    font-size: 20px;
+    color: white;
+    padding-left: 40px;
+    box-sizing: border-box;
+    border-top: 1px solid rgba(255, 255, 255, .1);
+    border-bottom: 1px solid black;
+    transition: .2s;
+}
+
+#menu ul li:hover .menuitem, #ShorterMenu ul li:hover .menuitem{
+    padding-left: 50px;
+}
+
+#menu ul .menuitem i, #ShorterMenu ul .menuitem i {
+    margin-right: 16px;
+}
+
+#box {
+    display: none;
+    height: 0%;
+}
+
+label #open,label #cancel{
+    position: fixed;
+    cursor: pointer;
+}
+
+label #open {
+    left: 40px;
+    top: 25px;
+    font-size: 35px;
+    color: white;
+    background: #042331;
+    border-radius: 3px;
+    padding: 6px 12px;
+    margin-top: 16px;
+    transition: all .5s;
+}
+
+label #cancel{
+    opacity: 0;
+    border-radius: 3px;
+    z-index: 1111;
+    left: -195px;
+    top: 17px;
+    font-size: 30px;
+    color: #0a5275;
+    padding-top: 30px;
+    transition: all .5s ease;
+}
+
+#box:checked ~ #menu , #box:checked ~ #ShorterMenu{
+    left: 0;
+}
+
+#box:checked ~ label #open {
+    left: 250px;
+    opacity: 0;
+    pointer-events: none;
+}
+
+#box:checked ~ label #cancel {
+    left: 195px;
+    opacity: 100%;
+}
+
+#userinfo {
+    margin-left: 40px;
 }

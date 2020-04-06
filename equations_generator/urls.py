@@ -2,5 +2,5 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('/equation', views.generate_equation, name='equation'),
+    path('/n=<int:n>', views.generate_equation, name='equation'),
 ]

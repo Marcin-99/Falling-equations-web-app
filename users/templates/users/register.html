@@ -1,0 +1,22 @@
+{% extends "falling_equations/layout.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div>
+    <form method="POST" class="font-weight-bolder">
+        {% csrf_token %}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Join Today</legend>
+            <div class="text-light">{{ form|crispy }}</div>
+        </fieldset>
+        <div class="form-group">
+            <button class="btn btn-outline-light font-weight-bold" type="submit">Sign Up</button>
+        </div>
+    </form>
+    <div class="border-top pt-3">
+        <small class="text-light">
+            Already have an account? <a class="ml-2 text-info" href="{% url 'login' %}">Sign In</a>
+        </small>
+    </div>
+</div>
+{% endblock content %}

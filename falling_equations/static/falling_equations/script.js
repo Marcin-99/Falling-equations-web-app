@@ -2,10 +2,18 @@ let canvas = document.getElementById("canvas")
 let ctx = canvas.getContext("2d");
 let projectiles = [];
 let enemies = [];
-var LVL = 1;
+var LVL = 5;
 
-const GAME_WIDTH = canvas.width;
-const GAME_HEIGHT = canvas.height;
+var GAME_WIDTH = window.innerWidth * 0.6;
+var GAME_HEIGHT = window.innerHeight * 0.8;
+
+if(window.innerWidth < 1200) {
+    GAME_WIDTH = window.innerWidth * 0.8;
+    GAME_HEIGHT = window.innerHeight * 0.8;
+}
+
+document.getElementById("canvas").width = GAME_WIDTH;
+document.getElementById("canvas").height = GAME_HEIGHT;
 
 
 class Projectile {
@@ -120,8 +128,8 @@ class Player {
 
 class Enemy {
     constructor(posX, posY, equation, solution) {
-        this.width = equation.length * 16.6;
-        this.height = 4;
+        this.width = equation.length * 16 + 12;
+        this.height = 20;
         this.speed = 10;
         this.position = {
             x: posX,
@@ -129,14 +137,15 @@ class Enemy {
         }
         this.equation = equation;
         this.solution = solution;
-        console.log(this.equation);
-        console.log(this.solution);
+        this.changeColor = false
     }
 
     draw(ctx) {
-        ctx.fillStyle = "#990000";
-        ctx.fillRect(this.position.x, this.position.y, this.width, this.height)
+        if(!this.changeColor) ctx.fillStyle = "#990000";
+        else ctx.fillStyle = "#ff0000";
+        ctx.fillRect(this.position.x, this.position.y, this.width, 5)
 
+        ctx.fillStyle = "#990000";
         ctx.font = "30px Spicy Rice";
         ctx.fillText(this.equation, this.position.x + 8, this.position.y - 10);
     }
@@ -263,7 +272,7 @@ const sendHttpRequest = (method, url) => {
 /*Get json response from given url, where Python script generates and solves random equation.*/
 /*Function waits untill process is resolved, then it calls pushNewEnemy() function.*/
 function getRandomEquation() {
-    const url = "http://127.0.0.1:8000/falling-equations/equation";
+    const url = 'http://127.0.0.1:8000/equation/n=' + LVL.toString();
 
     sendHttpRequest('GET', url).then(responseData => {
         const data = responseData["equation"];
@@ -286,7 +295,16 @@ function getRandomEquation() {
 
 /*Push new enemy to a list with arguments given by previous function after getting json response from Python script*/
 function pushNewEnemy(randomEquation) {
-    enemies.push(new Enemy(Math.floor(Math.random() * GAME_WIDTH), 10, randomEquation.equation, randomEquation.solution));
+    var randomPosX = Math.floor(Math.random() * GAME_WIDTH);
+    let newEnemy = new Enemy(randomPosX, 10, randomEquation.equation, randomEquation.solution);
+
+    while(newEnemy.position.x + newEnemy.width > GAME_WIDTH)
+    {
+        var randomPosX = Math.floor(Math.random() * GAME_WIDTH);
+        newEnemy.position.x = randomPosX;
+    }
+
+    enemies.push(newEnemy);
 }
 
 
@@ -300,9 +318,20 @@ function isCollision(projectile, enemy)
 }
 
 
+function checkSolutions(projectile, enemy)
+{
+    if(parseInt(projectile.solution) == parseInt(enemy.solution)) return true;
+    else return false;
+}
+
+
+function returnColor(enemy) {
+    enemy.changeColor = false;
+}
+
+
 /*----------------------------------------------------- GAME SECTION --------------------------------------------------*/
-const Http = new XMLHttpRequest();
-const url = "http://127.0.0.1:8000/falling-equations/equation";
+
 
 let player = new Player(GAME_WIDTH, GAME_HEIGHT);
 new inputHandler(player);
@@ -339,11 +368,19 @@ function gameLoop(timestamp) {
         {
             if(isCollision(projectiles[i], enemies[j]))
             {
-                console.log("KOLIZJA!!!!!!");
+                if(checkSolutions(projectiles[i], enemies[j]))
+                {
+                    enemies.splice(j, 1);
+                    j--;
+                }
+                else
+                {
+                    enemies[j].changeColor = true;
+                    setTimeout('returnColor(enemies[j])', 200);
+                }
                 projectiles.splice(i, 1);
                 i--;
-                enemies.splice(j, 1);
-                j--;
+                break;
             }
         }
     }

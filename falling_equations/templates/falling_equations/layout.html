@@ -14,12 +14,50 @@
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{% static 'falling_equations/style.css' %}" />
     <link href="https://fonts.googleapis.com/css?family=Spicy+Rice&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Fredoka+One&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 </head>
 <body>
-
+    <input type="checkbox" id="box">
+    <label for="box">
+        <i class="fas fa-bars" id="open"></i>
+        <i class="fas fa-times" id="cancel"></i>
+    </label>
+    {% if user.is_authenticated %}
     <div id="menu">
-        {% block menubar %}
-        {% endblock menubar %}
+        <header>Menu</header>
+        <ul>
+            <li><a class="menuitem"><i class="fas fa-user"></i>{{ user.username }}</a></li>
+            <li id="userinfo"><a href="{% url 'profile' %}" class="menuitem"><i class="fas fa-address-card"></i>Profile</a></li>
+            <li id="userinfo"><a href="{% url 'logout' %}" class="menuitem"><i class="fas fa-sign-out-alt"></i>Log Out</a></li>
+            <li><a href="{% url 'falling-equations-home' %}" class="menuitem"><i class="fas fa-igloo"></i>Home</a></li>
+            <li><a href="{% url 'falling-equations-players' %}" class="menuitem"><i class="fas fa-users"></i>Players</a></li>
+            <li><a href="#" class="menuitem"><i class="fas fa-sort-numeric-up-alt"></i>Generator</a></li>
+            <li><a href="{% url 'falling-equations-about' %}" class="menuitem"><i class="far fa-question-circle"></i>About</a></li>
+        </ul>
+    </div>
+    {% else %}
+    <div id="ShorterMenu">
+        <header>Menu</header>
+        <ul>
+            <li><a href="{% url 'falling-equations-home' %}" class="menuitem"><i class="fas fa-igloo"></i>Home</a></li>
+            <li><a href="{% url 'register' %}" class="menuitem"><i class="fas fa-registered"></i>Register</a></li>
+            <li><a href="{% url 'login' %}" class="menuitem"><i class="fas fa-sign-in-alt"></i>Log In</a></li>
+            <li><a href="{% url 'falling-equations-players' %}" class="menuitem"><i class="fas fa-users"></i>Players</a></li>
+            <li><a href="#" class="menuitem"><i class="fas fa-sort-numeric-up-alt"></i>Generator</a></li>
+            <li><a href="{% url 'falling-equations-about' %}" class="menuitem"><i class="far fa-question-circle"></i>About</a></li>
+        </ul>
+    </div>
+    {% endif %}
+
+    <div id="flash_messages">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
     </div>
 
     <div id="content">

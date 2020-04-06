@@ -8,3 +8,7 @@ def home(request):
 
 def players(request):
     return render(request, 'falling_equations/players.html')
+
+
+def about(request):
+    return render(request, 'falling_equations/about.html')
