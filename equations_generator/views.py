@@ -14,7 +14,7 @@ def generate_equation(request, n=1):
             generator.Reverse_Polish_Notation_algorithm()
             generator.compute_Reverse_Polish_Notation()
 
-            if generator.handle_exceptions(min_value, max_value) == True:
+            if generator.handle_exceptions(min_value, max_value):
                 generator.equation.append(generator.solution)
                 break
         except:

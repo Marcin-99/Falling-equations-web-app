@@ -181,8 +181,6 @@ class EquationGenerator:
         saved_equation = self.equation.copy()
         have_parentheses = False
 
-        print(saved_equation)
-
         for element in self.equation:
             if element == "(" or element == ")":
                 self.equation.remove(element)
