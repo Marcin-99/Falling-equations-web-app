@@ -1,8 +1,20 @@
 {% extends "falling_equations/layout.html" %}
+{% load static %}
 
 {% block content %}
 <div id="home">
+    <h1 id="infobar" class="bg-light">
+        <span id="LVL" class="text-left rounded">LVL: 2</span>
+        <span id="heartSection"></span>
+        <span id="points" class="float-right">Points: 5</span>
+    </h1>
     <canvas id="canvas"></canvas>
-</div>
 
+    <img id="source" src="{% static 'falling_equations/images/heart.png' %}">
+    <audio allow="autoplay" id="music" src="{% static 'falling_equations/sound_effects/Countdown.mp3' %}">
+</div>
 {% endblock content %}
+
+{% block script %}
+<script type="module" src="{% static 'falling_equations/JS/script.js' %}"></script>
+{% endblock script %}

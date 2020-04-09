@@ -60,6 +60,11 @@ export function getRandomEquation(LVL, GAME_WIDTH, GAME_HEIGHT, EnemyClass, enem
 }
 
 
+export function countFiveSeconds() {
+
+}
+
+
 /*Push new enemy to a list with arguments given by previous function after getting json response from Python script*/
 export function pushNewEnemy(randomEquation, GAME_WIDTH, GAME_HEIGHT, EnemyClass, enemies) {
     var randomPosX = Math.floor(Math.random() * GAME_WIDTH);
@@ -80,3 +85,39 @@ export function checkSolutions(projectile, enemy)
     if(parseInt(projectile.solution) == parseInt(enemy.solution)) return true;
     else return false;
 }
+
+
+export function setIntervalLimited(callback, interval, x, LVL, GAME_WIDTH, GAME_HEIGHT, Enemy, enemies) {
+
+    for (var i = 0; i < x; i++) {
+        setTimeout(callback, i * interval, LVL, GAME_WIDTH, GAME_HEIGHT, Enemy, enemies);
+    }
+
+}
+
+
+export function getDirectionForEveryFragment(equationLength, i) {
+    if(equationLength >= 7) {
+        if(i == 0) return "Left";
+        else if(i == equationLength - 1) return "Right";
+        else if(i == 1) return "UpAndLeft";
+        else if(i == 2) return "DownAndLeft";
+        else if (i == equationLength - 2) return "DownAndRight";
+        else if (i == equationLength - 3) return "UpAndRight";
+        else if (i % 2 != 0) return "Up";
+        else return "Down";
+    }
+    else {
+        if(i == 0) return "Left";
+        else if(i == equationLength - 1) return "Right";
+        else if (i % 2 != 0) return "Up";
+        else return "Down";
+    }
+}
+
+
+
+
+
+
+

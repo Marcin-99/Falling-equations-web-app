@@ -124,6 +124,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+"""Path to the folder, where django will store uploaded files."""
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 LOGIN_REDIRECT_URL = 'falling-equations-home'

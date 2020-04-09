@@ -4,6 +4,7 @@ export default class Player {
     constructor(gameWidth, gameHeight) {
         this.gameWidth = gameWidth;
         this.gameHeight = gameHeight;
+        this.hitPoints = 3;
         this.width = 50;
         this.height = 50;
         this.maxSpeedX = 100;
@@ -15,6 +16,7 @@ export default class Player {
             x: 100,
             y: 100,
         }
+        this.heart = document.getElementById("source");
     }
 
     draw(ctx) {
@@ -24,16 +26,18 @@ export default class Player {
         ctx.lineTo(this.position.x, this.position.y + 50);
         ctx.lineTo(this.position.x + 25, this.position.y);
         ctx.fillStyle = "#00994d";
-
         ctx.fill();
+
+        for(var i = 0; i < this.hitPoints; i++)
+            ctx.drawImage(this.heart, 5 + i * 15, 5, 50, 50);
 
         ctx.fillStyle = "#00994d";
         ctx.font = "30px Spicy Rice";
         if(this.solution.length == 1) ctx.fillText(this.solution, this.position.x + 16, this.position.y - 10);
         if(this.solution.length == 2) ctx.fillText(this.solution, this.position.x + 8, this.position.y - 10);
         if(this.solution.length == 3) ctx.fillText(this.solution, this.position.x, this.position.y - 10);
-
     }
+
 
     update(deltaTime) {
         if(!deltaTime) return;
@@ -47,34 +51,42 @@ export default class Player {
         if(this.position.x + this.width > this.gameWidth) this.position.x = this.gameWidth - this.width;
     }
 
+
     moveLeft() {
         this.speedX = -this.maxSpeedX;
     }
+
 
     moveRight() {
         this.speedX = this.maxSpeedX;
     }
 
+
     moveUp() {
         this.speedY = -this.maxSpeedY;
     }
+
 
     moveDown() {
         this.speedY = this.maxSpeedY;
     }
 
+
     stopX() {
         this.speedX = 0;
     }
+
 
     stopY() {
         this.speedY = 0;
     }
 
+
     shoot(projectiles) {
         if(this.solution) projectiles.push(new Projectile(this.position.x + 25, this.position.y - 10, this.solution));
         this.solution = "";
     }
+
 
     changeSolution(char) {
         if(this.solution[0] == "-" && this.solution.length < 3 || this.solution[0] != "-" && this.solution.length < 2)

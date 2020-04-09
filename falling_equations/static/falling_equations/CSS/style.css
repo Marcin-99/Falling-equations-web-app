@@ -128,3 +128,18 @@ label #cancel{
 #userinfo {
     margin-left: 40px;
 }
+
+#flash_messages {
+    margin-top: -24px;
+}
+
+#infobar {
+    border-radius: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-family: 'Fredoka One', cursive;
+}
+
+#source, music {
+    display: none;
+}

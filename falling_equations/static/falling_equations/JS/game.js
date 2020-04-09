@@ -1,8 +1,10 @@
 import Player from "./player.js";
 import Projectile from "./projectile.js";
 import Enemy from "./enemy.js";
+import Fragment from "./fragment.js";
 import inputHandler from "./inputHandler.js";
-import {makeStringFromData, isCollision, getRandomEquation, pushNewEnemy, checkSolutions} from "./utilities.js";
+import {makeStringFromData, isCollision, getRandomEquation, pushNewEnemy, checkSolutions,
+        setIntervalLimited, getDirectionForEveryFragment} from "./utilities.js";
 
 
 export default class Game {
@@ -12,11 +14,17 @@ export default class Game {
         this.GAME_HEIGHT = GAME_HEIGHT;
         this.projectiles = [];
         this.enemies = [];
+        this.fragments = [];
         this.LVL = 1;
+        this.points = 0;
+        this.equationCounter = 0;
         this.lastTime = 0;
         this.player = new Player(GAME_WIDTH, GAME_HEIGHT);
+        this.backgroundMusic = document.getElementById("music");
+        this.isMusicPlayed = false;
         new inputHandler(this.player, this.projectiles);
-        setInterval(getRandomEquation, 5000, this.LVL, this.GAME_WIDTH, this.GAME_HEIGHT, Enemy, this.enemies);
+        setIntervalLimited(getRandomEquation, 5000, 3, this.LVL, this.GAME_WIDTH, this.GAME_HEIGHT, Enemy, this.enemies);
+
         this.startGameLoop();
     }
 
@@ -25,12 +33,23 @@ export default class Game {
         let deltaTime = timestamp - this.lastTime;
         this.lastTime = timestamp;
 
+        this.playMusic();
+        this.setValuesInHtml();
+
         this.manageCollisionsOfProjectilesAndEnemiesWithTheWall();
         this.manageCollisionsBetweenProjectilesAndEnemies();
 
         this.drawEveryObject(deltaTime);
 
         requestAnimationFrame(this.startGameLoop.bind(this));
+    }
+
+
+    playMusic () {
+        if(this.isMusicPlayed == false) {
+            this.backgroundMusic.play();
+            this.isMusicPlayed = true
+            }
     }
 
 
@@ -50,6 +69,13 @@ export default class Game {
         {
             this.enemies[i].update(deltaTime);
             this.enemies[i].draw(this.ctx);
+            if(this.enemies[i].changedColorForProperValue == false) this.enemies[i].getRealWidthOfTheEnemy(this.ctx);
+        }
+
+        for(var i = 0; i < this.fragments.length; i++)
+        {
+            this.fragments[i].update(deltaTime);
+            this.fragments[i].draw(this.ctx);
         }
     }
 
@@ -66,8 +92,14 @@ export default class Game {
         for(var i = 0; i < this.enemies.length; i++)
         {
             if(this.enemies[i].position.y > this.GAME_HEIGHT - this.enemies[i].height) {
+                this.player.hitPoints -= 1;
                 this.enemies.splice(i, 1);
                 i--;
+                this.equationCounter += 1;
+                if(this.equationCounter % 3 == 0 && this.equationCounter != 0) {
+                    this.LVL += 1;
+                    setIntervalLimited(getRandomEquation, 5000, 3, this.LVL, this.GAME_WIDTH, this.GAME_HEIGHT, Enemy, this.enemies);
+                }
             }
         }
     }
@@ -82,6 +114,13 @@ export default class Game {
                 {
                     if(checkSolutions(this.projectiles[i], this.enemies[j]))
                     {
+                        this.equationCounter += 1;
+                        this.points += 1;
+                        if(this.equationCounter % 3 == 0 && this.equationCounter != 0) {
+                            this.LVL += 1;
+                            setIntervalLimited(getRandomEquation, 5000, 3, this.LVL, this.GAME_WIDTH, this.GAME_HEIGHT, Enemy, this.enemies);
+                        }
+                        this.createFragments(this.enemies[j]);
                         this.enemies.splice(j, 1);
                         j--;
                     }
@@ -90,6 +129,36 @@ export default class Game {
                     break;
                 }
             }
+        }
+    }
+
+
+    setValuesInHtml () {
+        /*Write LVL and number of points.*/
+        document.getElementById("LVL").innerHTML = "LVL: " + this.LVL;
+        document.getElementById("points").innerHTML = "Points: " + this.points;
+
+        /*Change color of LVL and points when LVL increases.*/
+        var color = 8 - this.LVL;
+        color = color.toString() + color.toString() + color.toString() + color.toString();
+        document.getElementById("infobar").style.color = "#ff" + color;
+    }
+
+
+    createFragments (enemy) {
+        const equationLength = enemy.equation.length;
+        const savedWidth = enemy.width;
+        var direction = "";
+
+        for(var i = 0; i < equationLength; i++) {
+            var char = enemy.equation[0];
+
+            direction = getDirectionForEveryFragment(equationLength, i);
+
+            this.fragments.push(new Fragment(enemy.position.x + savedWidth - enemy.width, enemy.position.y, char, direction));
+
+            enemy.equation = enemy.equation.slice(1, enemy.equation.length);
+            enemy.getRealWidthOfTheEnemy(this.ctx);
         }
     }
 }
