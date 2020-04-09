@@ -16,17 +16,20 @@ export default class Player {
             x: 100,
             y: 100,
         }
-        this.heart = document.getElementById("source");
+        this.heart = document.getElementById("sourceHeart");
+        this.playerImage = document.getElementById("sourceProfileImage");
     }
 
     draw(ctx) {
-        ctx.beginPath();
+        /*ctx.beginPath();
         ctx.moveTo(this.position.x + 25, this.position.y);
         ctx.lineTo(this.position.x + 50, this.position.y + 50);
         ctx.lineTo(this.position.x, this.position.y + 50);
         ctx.lineTo(this.position.x + 25, this.position.y);
         ctx.fillStyle = "#00994d";
-        ctx.fill();
+        ctx.fill();*/
+
+        ctx.drawImage(this.playerImage, this.position.x, this.position.y, 100, 100);
 
         for(var i = 0; i < this.hitPoints; i++)
             ctx.drawImage(this.heart, 5 + i * 15, 5, 50, 50);

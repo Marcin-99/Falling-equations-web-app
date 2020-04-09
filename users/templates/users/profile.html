@@ -4,14 +4,25 @@
 {% block content %}
 
 <div class="content-section">
-    <div class="media">
-        <img class="rounded-circle account-img" src="{{ user.profile.image.url }}" width="100px" height="100px">
-        <div class="media-body">
-            <h2 class="account-heading">{{ user.username }}</h2>
-            <p class="text-secondary">{{ user.email }}</p>
+    <div id="profile" class="card card-body">
+        <div class="media mb-5">
+            <img class="rounded-circle account-img" src="{{ user.profile.image.url }}" width="100px" height="100px">
+            <div class="ml-5  media-body">
+                <h2 class="text-dark account-heading">{{ user.username }}</h2>
+                <p class="text-dark">{{ user.email }}</p>
+            </div>
         </div>
+        <form method="POST" class="font-weight-bolder" enctype="multipart/form-data">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <div class="text-dark">{{ user_form|crispy }}</div>
+                <div class="text-dark">{{ profile_form|crispy }}</div>
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-dark font-weight-bold" type="submit">Update</button>
+            </div>
+        </form>
     </div>
-    <!-- FORM HERE -->
 </div>
 
 {% endblock content %}

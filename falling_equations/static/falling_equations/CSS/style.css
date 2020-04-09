@@ -137,9 +137,13 @@ label #cancel{
     border-radius: 10px;
     padding-left: 10px;
     padding-right: 10px;
-    font-family: 'Fredoka One', cursive;
+    font-family: 'Shadows Into Light', cursive;
 }
 
-#source, music {
+#sourceHeart, #music, #sourceProfileImage {
     display: none;
+}
+
+#profile {
+    border-radius: 20px;
 }
