@@ -11,7 +11,8 @@
     <canvas id="canvas"></canvas>
 
     <img id="source" src="{% static 'falling_equations/images/heart.png' %}">
-    <audio allow="autoplay" id="music" src="{% static 'falling_equations/sound_effects/Countdown.mp3' %}">
+    <audio id="backgroundMusic" src="{% static 'falling_equations/sound_effects/Countdown.mp3' %}" allow="autoplay">
+    <audio id="enemyHit" src="{% static 'falling_equations/sound_effects/NenadSimic - Muffled Distant Explosion.mp3' %}" allow="autoplay">
 </div>
 {% endblock content %}
 

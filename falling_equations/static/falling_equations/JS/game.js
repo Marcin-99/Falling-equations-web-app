@@ -20,7 +20,8 @@ export default class Game {
         this.equationCounter = 0;
         this.lastTime = 0;
         this.player = new Player(GAME_WIDTH, GAME_HEIGHT);
-        this.backgroundMusic = document.getElementById("music");
+        this.backgroundMusic = document.getElementById("backgroundMusic");
+        this.enemyHitSound = document.getElementById("enemyHit");
         this.isMusicPlayed = false;
         new inputHandler(this.player, this.projectiles);
         setIntervalLimited(getRandomEquation, 5000, 3, this.LVL, this.GAME_WIDTH, this.GAME_HEIGHT, Enemy, this.enemies);
@@ -32,6 +33,8 @@ export default class Game {
     startGameLoop(timestamp) {
         let deltaTime = timestamp - this.lastTime;
         this.lastTime = timestamp;
+
+        console.log(this.fragments);
 
         this.playMusic();
         this.setValuesInHtml();
@@ -47,8 +50,9 @@ export default class Game {
 
     playMusic () {
         if(this.isMusicPlayed == false) {
+            this.backgroundMusic.volume = 0.2;
             this.backgroundMusic.play();
-            this.isMusicPlayed = true
+            this.isMusicPlayed = true;
             }
     }
 
@@ -102,6 +106,14 @@ export default class Game {
                 }
             }
         }
+
+        for(var i = 0; i < this.fragments.length; i++)
+        {
+            if(this.fragments[i].position.x > this.GAME_WIDTH || this.fragments[i].position.x < 0 ||
+               this.fragments[i].position.y > this.GAME_HEIGHT || this.fragments[i].position.y < 0) {
+                this.fragments.splice(i, 1);
+                }
+        }
     }
 
     manageCollisionsBetweenProjectilesAndEnemies () {
@@ -120,6 +132,8 @@ export default class Game {
                             this.LVL += 1;
                             setIntervalLimited(getRandomEquation, 5000, 3, this.LVL, this.GAME_WIDTH, this.GAME_HEIGHT, Enemy, this.enemies);
                         }
+                        this.enemyHitSound.volume = 1;
+                        this.enemyHitSound.play();
                         this.createFragments(this.enemies[j]);
                         this.enemies.splice(j, 1);
                         j--;
@@ -136,7 +150,7 @@ export default class Game {
     setValuesInHtml () {
         /*Write LVL and number of points.*/
         document.getElementById("LVL").innerHTML = "LVL: " + this.LVL;
-        document.getElementById("points").innerHTML = "Points: " + this.points;
+        document.getElementById("points").innerHTML = "SCORE: " + this.points;
 
         /*Change color of LVL and points when LVL increases.*/
         var color = 8 - this.LVL;

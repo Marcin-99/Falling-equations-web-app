@@ -7,7 +7,7 @@
 }
 
 #content {
-    background-color: #ff9f80;
+    background-color: #334d4d;
     color: #fff;
     display: flex;
     flex-direction: column;
@@ -47,7 +47,7 @@
 
 #menu header, #ShorterMenu header {
     font-size: 22px;
-    color: #ff9f80;
+    color: #e6e6e6;
     text-align: center;
     line-height: 70px;
     background: #063146;
