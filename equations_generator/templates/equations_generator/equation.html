@@ -1,0 +1,18 @@
+{% extends "falling_equations/layout.html" %}
+
+{% block content %}
+
+<div>
+    <fieldset class="form-group">
+        <legend id="equation_section" class="border-bottom mb-5">Your Equation: </legend>
+        <input id="equation" class="mb-3" value="{{ equation }}">
+    </fieldset>
+    <div class="form-group text-center">
+        <a href="{% url 'generator' %}"><button class="btn btn-outline-light font-weight-bold" type="submit">Go back</button></a>
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block script %}
+{% endblock script %}

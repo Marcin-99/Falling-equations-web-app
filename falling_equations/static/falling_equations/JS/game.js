@@ -34,8 +34,6 @@ export default class Game {
         let deltaTime = timestamp - this.lastTime;
         this.lastTime = timestamp;
 
-        console.log(this.fragments);
-
         this.playMusic();
         this.setValuesInHtml();
 

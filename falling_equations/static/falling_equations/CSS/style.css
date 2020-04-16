@@ -32,7 +32,7 @@
     height: 540px;
     background: #042331;
     transition: all .5s ease;
-    font-family: 'Fredoka One', cursive;
+    font-family: 'Baloo Bhaina 2', cursive;
 }
 
 #ShorterMenu {
@@ -42,11 +42,11 @@
     height: 472px;
     background: #042331;
     transition: all .5s ease;
-    font-family: 'Fredoka One', cursive;
+    font-family: 'Baloo Bhaina 2', cursive;
 }
 
 #menu header, #ShorterMenu header {
-    font-size: 22px;
+    font-size: 30px;
     color: #e6e6e6;
     text-align: center;
     line-height: 70px;
@@ -146,4 +146,17 @@ label #cancel{
 
 #profile {
     border-radius: 20px;
+}
+
+#equation_section {
+    text-align: center;
+    font-size: 40px;
+}
+
+#equation {
+    text-align: center;
+    border: none;
+    border-radius: 10px;
+    font-size: 40px;
+    letter-spacing: 5px;
 }

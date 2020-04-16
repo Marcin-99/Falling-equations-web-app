@@ -1,13 +1,16 @@
 from equations_generator.utilities import top, last, is_int
 import random
 
+
 class EquationGenerator:
-    def __init__(self, num_of_arguments):
+    def __init__(self, num_of_arguments, min_value, max_value):
+        self.num_of_arguments = num_of_arguments
+        self.min_value = min_value
+        self.max_value = max_value
         self.equation = []
         self.Reverse_Polish_Notation_equation = []
+        self.equation_string = ""
         self.solution = ""
-        self.num_of_arguments = num_of_arguments
-
 
     def draw_chars(self):
         chars_list = []
@@ -50,14 +53,12 @@ class EquationGenerator:
 
         return chars_list
 
-
     def draw_numbers(self, num):
         num_list = []
         for i in range(num):
             num_list.append(random.randrange(1, 10))
 
         return num_list
-
 
     def create_equation(self, char_list, num_list):
         for char in char_list:
@@ -84,7 +85,6 @@ class EquationGenerator:
 
         self.equation.append("=")
 
-
     def generate_equation(self):
         char_list = self.draw_chars()
 
@@ -95,7 +95,6 @@ class EquationGenerator:
 
         num_list = self.draw_numbers(self.num_of_arguments + 1 - parenthesis_num)
         self.create_equation(char_list, num_list)
-
 
     def Reverse_Polish_Notation_algorithm(self):
         stack = []
@@ -131,7 +130,6 @@ class EquationGenerator:
                 stack.pop()
 
         self.Reverse_Polish_Notation_equation = output
-
 
     def compute_Reverse_Polish_Notation(self):
         output = []
@@ -175,7 +173,6 @@ class EquationGenerator:
         self.solution = output[0]
         self.equation.append(output[0])
 
-
     def check_solution_after_deleting_parentheses(self):
         saved_solution = self.solution
         saved_equation = self.equation.copy()
@@ -200,10 +197,13 @@ class EquationGenerator:
             self.equation.pop()
             return False
 
-
-    def handle_exceptions(self, min_value, max_value):
-        if self.solution >= min_value and self.solution <= max_value and int(self.solution) == float(self.solution) and\
+    def handle_exceptions(self):
+        if self.solution >= self.min_value and self.solution <= self.max_value and int(self.solution) == float(self.solution) and\
                 self.check_solution_after_deleting_parentheses() == False:
             return True
         else:
             return False
+
+    def create_equation_string(self):
+        for char in self.equation:
+            self.equation_string += str(char)

@@ -44,7 +44,7 @@ export function getRandomEquation(LVL, GAME_WIDTH, GAME_HEIGHT, EnemyClass, enem
     const url = 'http://127.0.0.1:8000/equation/n=' + LVL.toString();
 
     sendHttpRequest('GET', url).then(responseData => {
-        const data = responseData["equation"];
+        const data = responseData["data"]["equation list"];
         const solution = data[data.length - 1];
         data.pop();
         data.pop();
@@ -114,10 +114,3 @@ export function getDirectionForEveryFragment(equationLength, i) {
         else return "Down";
     }
 }
-
-
-
-
-
-
-
