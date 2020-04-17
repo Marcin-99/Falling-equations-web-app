@@ -4,15 +4,14 @@
 {% block content %}
 <div id="home">
     <h1 id="infobar" class="bg-light font-weight-bold">
-        <span id="LVL" class="text-left rounded">LVL: 2</span>
-        <span id="heartSection"></span>
-        <span id="points" class="float-right">Points: 5</span>
+        <span id="LVL"></span>
+        <span id="points" class="text-left ml-5"></span>
     </h1>
     <canvas id="canvas"></canvas>
 
     <img id="sourceHeart" src="{% static 'falling_equations/images/heart.png' %}">
     <img id="sourceProfileImage" src="{{ user.profile.image.url }}">
-    <audio id="backgroundMusic" src="{% static 'falling_equations/sound_effects/Countdown.mp3' %}" allow="autoplay">
+    <audio id="backgroundMusic" src="{% static 'falling_equations/sound_effects/Countdown.mp3' %}" allow="autoplay" volume="0.2">
     <audio id="enemyHit" src="{% static 'falling_equations/sound_effects/NenadSimic - Muffled Distant Explosion.mp3' %}" allow="autoplay">
 </div>
 {% endblock content %}

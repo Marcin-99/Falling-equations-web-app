@@ -9,6 +9,8 @@ import {makeStringFromData, isCollision, getRandomEquation, pushNewEnemy, checkS
 
 export default class Game {
     constructor(ctx, GAME_WIDTH, GAME_HEIGHT) {
+        this.gameState = "MENU";
+        this.gameStarted = false;
         this.ctx = ctx;
         this.GAME_WIDTH = GAME_WIDTH;
         this.GAME_HEIGHT = GAME_HEIGHT;
@@ -23,8 +25,7 @@ export default class Game {
         this.backgroundMusic = document.getElementById("backgroundMusic");
         this.enemyHitSound = document.getElementById("enemyHit");
         this.isMusicPlayed = false;
-        new inputHandler(this.player, this.projectiles);
-        setIntervalLimited(getRandomEquation, 5000, 3, this.LVL, this.GAME_WIDTH, this.GAME_HEIGHT, Enemy, this.enemies);
+        new inputHandler(this.player, this.projectiles, this);
 
         this.startGameLoop();
     }
@@ -34,13 +35,22 @@ export default class Game {
         let deltaTime = timestamp - this.lastTime;
         this.lastTime = timestamp;
 
-        this.playMusic();
-        this.setValuesInHtml();
+        if(this.gameState == "MENU") {
+            this.drawEveryObjectsForMenu();
+        }
+        if(this.gameState == "RUNNING") {
+            if(this.gameStarted == false) {
+                setIntervalLimited(getRandomEquation, 5000, 3, this.LVL, this.GAME_WIDTH, this.GAME_HEIGHT, Enemy, this.enemies);
+                this.gameStarted = true;
+            }
+            this.playMusic();
+            this.setValuesInHtml();
 
-        this.manageCollisionsOfProjectilesAndEnemiesWithTheWall();
-        this.manageCollisionsBetweenProjectilesAndEnemies();
+            this.manageCollisionsOfProjectilesAndEnemiesWithTheWall();
+            this.manageCollisionsBetweenProjectilesAndEnemies();
 
-        this.drawEveryObject(deltaTime);
+            this.drawEveryObjectForGame(deltaTime);
+        }
 
         requestAnimationFrame(this.startGameLoop.bind(this));
     }
@@ -48,16 +58,27 @@ export default class Game {
 
     playMusic () {
         if(this.isMusicPlayed == false) {
-            this.backgroundMusic.volume = 0.2;
+            this.backgroundMusic.volume = document.getElementById("backgroundMusic").getAttribute("volume");
             this.backgroundMusic.play();
             this.isMusicPlayed = true;
             }
     }
 
 
-    drawEveryObject (deltaTime) {
+    drawEveryObjectsForMenu (deltaTime) {
         this.ctx.clearRect(0, 0, this.GAME_WIDTH, this.GAME_HEIGHT);
 
+        this.ctx.font = "40px Shadows Into Light";
+        this.ctx.fillStyle = "black";
+        this.ctx.textAlign = "center";
+        this.ctx.fillText("Press ENTER To Start", this.GAME_WIDTH / 2, this.GAME_HEIGHT / 2);
+    }
+
+
+    drawEveryObjectForGame (deltaTime) {
+        this.ctx.clearRect(0, 0, this.GAME_WIDTH, this.GAME_HEIGHT);
+
+        this.ctx.textAlign = "left";
         this.player.update(deltaTime);
         this.player.draw(this.ctx);
 
@@ -150,6 +171,7 @@ export default class Game {
         document.getElementById("LVL").innerHTML = "LVL: " + this.LVL;
         document.getElementById("points").innerHTML = "SCORE: " + this.points;
 
+        document.getElementById("infobar").style.display = "block";
         /*Change color of LVL and points when LVL increases.*/
         var color = 8 - this.LVL;
         color = color.toString() + color.toString() + color.toString() + color.toString();

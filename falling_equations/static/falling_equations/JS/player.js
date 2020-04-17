@@ -1,5 +1,6 @@
 import Projectile from "./projectile.js";
 
+
 export default class Player {
     constructor(gameWidth, gameHeight) {
         this.gameWidth = gameWidth;
@@ -29,7 +30,14 @@ export default class Player {
         ctx.fillStyle = "#00994d";
         ctx.fill();*/
 
-        ctx.drawImage(this.playerImage, this.position.x, this.position.y, 100, 100);
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(this.position.x + 26, this.position.y + 40, 40, 0, Math.PI * 2, true);
+        ctx.closePath();
+        ctx.clip();
+
+        ctx.drawImage(this.playerImage, this.position.x - 14, this.position.y, 80, 80);
+        ctx.restore();
 
         for(var i = 0; i < this.hitPoints; i++)
             ctx.drawImage(this.heart, 5 + i * 15, 5, 50, 50);
