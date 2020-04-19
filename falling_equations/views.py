@@ -1,6 +1,7 @@
 from django.shortcuts import render
-from django.views.generic import CreateView
+from django.views.decorators.csrf import csrf_protect
 from .models import Game
+import json
 
 
 def home(request):
@@ -15,10 +16,11 @@ def about(request):
     return render(request, 'falling_equations/about.html')
 
 
-class GameCreateView(CreateView):
-    model = Game
-    fields = ['level', 'score', 'last_equation']
+def save_game(request):
+    if request.method == 'POST':
+        data = json.loads(request.body.decode('utf-8'))
+        Game.objects.create(author=request.user, level=data['level'],
+                                   score=data['score'], last_equation=data['last_equation'])
 
-    def form_valid(self, form):
-        form.instance.author = self.request.user
-        return super().form_valid(form)
+
+    return render(request, 'falling_equations/about.html')

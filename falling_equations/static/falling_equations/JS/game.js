@@ -3,8 +3,10 @@ import Projectile from "./projectile.js";
 import Enemy from "./enemy.js";
 import Fragment from "./fragment.js";
 import inputHandler from "./inputHandler.js";
-import {makeStringFromData, isCollision, getRandomEquation, pushNewEnemy, checkSolutions,
+import {makeStringFromData, isCollision, pushNewEnemy, checkSolutions,
         setIntervalLimited, getDirectionForEveryFragment} from "./utilities.js";
+import {saveGame} from "./ajax.js";
+import {getRandomEquation} from "./ajax.js"
 
 
 export default class Game {
@@ -26,13 +28,13 @@ export default class Game {
         this.enemyHitSound = document.getElementById("enemyHit");
         this.isMusicPlayed = false;
         new inputHandler(this.player, this.projectiles, this);
-
         this.startGameLoop();
     }
 
 
     startGameLoop(timestamp) {
         if(this.player.hitPoints <= 0) {
+            if(this.gameStarted == true) saveGame(this.LVL, this.points, "13-25=32");
             this.gameState = "ENDGAME";
             this.gameStarted = false;
         }

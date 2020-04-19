@@ -19,52 +19,6 @@ export function isCollision(object1, object2)
 }
 
 
-/*Send request for needed data.*/
-const sendHttpRequest = (method, url) => {
-    const promise = new Promise((resolve, reject) => {
-        const Http = new XMLHttpRequest();
-
-        Http.open(method, url);
-        Http.responseType = "json";
-
-        Http.onload = () => {
-            resolve(Http.response);
-        }
-
-    Http.send();
-    });
-
-    return promise;
-};
-
-
-/*Get json response from given url, where Python script generates and solves random equation.*/
-/*Function waits untill process is resolved, then it calls pushNewEnemy() function.*/
-export function getRandomEquation(LVL, GAME_WIDTH, GAME_HEIGHT, EnemyClass, enemies) {
-    const url = 'http://127.0.0.1:8000/equation/n=' + LVL.toString();
-
-    sendHttpRequest('GET', url).then(responseData => {
-        const data = responseData["data"]["equation list"];
-        const solution = data[data.length - 1];
-        data.pop();
-        data.pop();
-        var equation = makeStringFromData(data);
-
-        var randomEquation = {
-            equation: equation,
-            solution: solution,
-        }
-
-        pushNewEnemy(randomEquation, GAME_WIDTH, GAME_HEIGHT, EnemyClass, enemies);
-    });
-}
-
-
-export function countFiveSeconds() {
-
-}
-
-
 /*Push new enemy to a list with arguments given by previous function after getting json response from Python script*/
 export function pushNewEnemy(randomEquation, GAME_WIDTH, GAME_HEIGHT, EnemyClass, enemies) {
     var randomPosX = Math.floor(Math.random() * GAME_WIDTH);
@@ -113,4 +67,20 @@ export function getDirectionForEveryFragment(equationLength, i) {
         else if (i % 2 != 0) return "Up";
         else return "Down";
     }
+}
+
+
+export function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
 }

@@ -3,7 +3,7 @@ export default class Enemy {
         this.width = equation.length * 17 + 20;
         this.changedColorForProperValue = false;
         this.height = 20;
-        this.speed = 20;
+        this.speed = 50;
         this.position = {
             x: posX,
             y: posY,
