@@ -32,13 +32,17 @@ export default class Game {
 
 
     startGameLoop(timestamp) {
+        if(this.player.hitPoints <= 0) {
+            this.gameState = "ENDGAME";
+            this.gameStarted = false;
+        }
         let deltaTime = timestamp - this.lastTime;
         this.lastTime = timestamp;
 
         if(this.gameState == "MENU") {
-            this.drawEveryObjectsForMenu();
+            this.drawEveryObjectForMenu();
         }
-        if(this.gameState == "RUNNING") {
+        else if(this.gameState == "RUNNING") {
             if(this.gameStarted == false) {
                 setIntervalLimited(getRandomEquation, 5000, 3, this.LVL, this.GAME_WIDTH, this.GAME_HEIGHT, Enemy, this.enemies);
                 this.gameStarted = true;
@@ -50,6 +54,9 @@ export default class Game {
             this.manageCollisionsBetweenProjectilesAndEnemies();
 
             this.drawEveryObjectForGame(deltaTime);
+        }
+        else if(this.gameState == "ENDGAME") {
+            this.drawEveryObjectForEndGameScreen();
         }
 
         requestAnimationFrame(this.startGameLoop.bind(this));
@@ -65,13 +72,23 @@ export default class Game {
     }
 
 
-    drawEveryObjectsForMenu (deltaTime) {
+    drawEveryObjectForMenu () {
         this.ctx.clearRect(0, 0, this.GAME_WIDTH, this.GAME_HEIGHT);
 
         this.ctx.font = "40px Shadows Into Light";
         this.ctx.fillStyle = "black";
         this.ctx.textAlign = "center";
         this.ctx.fillText("Press ENTER To Start", this.GAME_WIDTH / 2, this.GAME_HEIGHT / 2);
+    }
+
+
+    drawEveryObjectForEndGameScreen () {
+        this.ctx.clearRect(0, 0, this.GAME_WIDTH, this.GAME_HEIGHT);
+
+        this.ctx.font = "40px Shadows Into Light";
+        this.ctx.fillStyle = "black";
+        this.ctx.textAlign = "center";
+        this.ctx.fillText("Game over!", this.GAME_WIDTH / 2, this.GAME_HEIGHT / 2);
     }
 
 
@@ -86,6 +103,7 @@ export default class Game {
         {
             this.projectiles[i].update(deltaTime);
             this.projectiles[i].draw(this.ctx);
+            if(this.projectiles[i].changedColorForProperValue == false) this.projectiles[i].getRealWidthOfTheProjectile(this.ctx);
         }
 
         for(var i = 0; i < this.enemies.length; i++)
@@ -134,6 +152,7 @@ export default class Game {
                 }
         }
     }
+
 
     manageCollisionsBetweenProjectilesAndEnemies () {
         for(var i = 0; i < this.projectiles.length; i++)
@@ -194,5 +213,10 @@ export default class Game {
             enemy.equation = enemy.equation.slice(1, enemy.equation.length);
             enemy.getRealWidthOfTheEnemy(this.ctx);
         }
+    }
+
+
+    changeGameState (newGameState) {
+       this.gameState = newGameState;
     }
 }

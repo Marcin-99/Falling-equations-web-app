@@ -16,4 +16,5 @@ document.getElementById("canvas").height = GAME_HEIGHT;
 
 var gameState = "GAME";
 
+
 new Game(ctx, GAME_WIDTH, GAME_HEIGHT);

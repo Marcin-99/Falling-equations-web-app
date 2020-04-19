@@ -1,9 +1,10 @@
 export default class Projectile {
     constructor (posX, posY, solution) {
-        this.width = 50;
-        this.height = 50;
+        this.width = 0;
+        this.height = 25;
         this.solution = solution;
         this.speed = 150;
+        this.changedColorForProperValue = false;
         this.position = {
         x: posX,
         y: posY,
@@ -23,5 +24,10 @@ export default class Projectile {
     update(deltaTime) {
         if(!deltaTime) return;
         this.position.y -= this.speed / deltaTime;
+    }
+
+
+    getRealWidthOfTheProjectile (ctx) {
+        this.width = ctx.measureText(this.solution).width;
     }
 }

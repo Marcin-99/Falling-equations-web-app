@@ -1,5 +1,8 @@
+import Game from "./game.js";
+
+
 export default class inputHandler {
-    constructor(player, projectiles, game) {
+    constructor(player, projectiles, game, ctx, GAME_WIDTH, GAME_HEIGHT) {
         document.addEventListener('keydown', (event) => {
             if(game.gameState == "RUNNING") {
                 switch(event.keyCode) {
@@ -57,10 +60,10 @@ export default class inputHandler {
                 }
             }
 
-            if(game.gameState == "MENU") {
+            else if(game.gameState == "MENU") {
                 switch(event.keyCode) {
                     case 13:
-                        game.gameState = "RUNNING";
+                        game.changeGameState("RUNNING");
                         break;
                 }
             }
