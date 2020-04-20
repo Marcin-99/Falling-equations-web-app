@@ -27,6 +27,7 @@ export default class Game {
         this.backgroundMusic = document.getElementById("backgroundMusic");
         this.enemyHitSound = document.getElementById("enemyHit");
         this.isMusicPlayed = false;
+        this.lastEquation = "";
         new inputHandler(this.player, this.projectiles, this);
         this.startGameLoop();
     }
@@ -34,7 +35,7 @@ export default class Game {
 
     startGameLoop(timestamp) {
         if(this.player.hitPoints <= 0) {
-            if(this.gameStarted == true) saveGame(this.LVL, this.points, "13-25=32");
+            if(this.gameStarted == true) saveGame(this.LVL, this.points, this.lastEquation);
             this.gameState = "ENDGAME";
             this.gameStarted = false;
         }
@@ -135,6 +136,7 @@ export default class Game {
         for(var i = 0; i < this.enemies.length; i++)
         {
             if(this.enemies[i].position.y > this.GAME_HEIGHT - this.enemies[i].height) {
+                this.lastEquation = this.enemies[i].equation
                 this.player.hitPoints -= 1;
                 this.enemies.splice(i, 1);
                 i--;

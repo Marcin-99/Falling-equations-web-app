@@ -2,6 +2,27 @@
 
 {% block content %}
 
-a tutaj beda gracze
+<table id="playersTable">
+    <thead>
+        <tr>
+            <th>Player</th>
+            <th>Level</th>
+            <th>Score</th>
+            <th>Lost To Equation</th>
+            <th>Played</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for record in games %}
+        <tr>
+            <td>{{ record.author.username }}</td>
+            <td>{{ record.level }}</td>
+            <td>{{ record.score }}</td>
+            <td>{{ record.last_equation }}</td>
+            <td>{{ record.date_played }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
 
 {% endblock content %}
