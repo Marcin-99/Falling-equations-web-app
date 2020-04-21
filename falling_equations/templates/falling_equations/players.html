@@ -19,7 +19,9 @@
     <tbody>
     {% for record in games %}
         <tr>
-            <td>{{ record.author.username }}</td>
+            <td><img class="rounded-circle account-img mr-3" src="{{ record.author.profile.image.url }}"
+                     width="50px" height="50px"><span class="usernameInTable" value="{{ record.author.username }}"></span></td>
+            <script type="module" src="{% static 'falling_equations/JS/fitUsernamesInTable.js' %}"></script>
             <td>{{ record.level }}</td>
             <td>{{ record.score }}</td>
             <td>{{ record.last_equation }}</td>
@@ -40,5 +42,7 @@
         {% endfor %}
     {% endif %}
 </navigation>
-
 {% endblock content %}
+
+{% block script %}
+{% endblock script %}

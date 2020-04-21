@@ -33,7 +33,7 @@
     <div id="menu">
         <header>Menu</header>
         <ul>
-            <li><a class="menuitem"><i class="fas fa-user"></i><span id="username" value="{{ user.username }}">{{ user.username }}</span></a></li>
+            <li><a class="menuitem"><i class="fas fa-user"></i><span id="username" value="{{ user.username }}"></span></a></li>
             <li id="userinfo"><a href="{% url 'profile' %}" class="menuitem"><i class="fas fa-address-card"></i>Profile</a></li>
             <li id="userinfo"><a href="{% url 'logout' %}" class="menuitem"><i class="fas fa-sign-out-alt"></i>Log Out</a></li>
             <li><a href="{% url 'falling-equations-home' %}" class="menuitem"><i class="fas fa-igloo"></i>Game</a></li>
