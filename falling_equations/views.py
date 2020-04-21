@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
+from django.views.generic import ListView
 from .models import Game
 import json
 import operator
@@ -9,24 +10,25 @@ def home(request):
     return render(request, 'falling_equations/home.html')
 
 
-def players(request):
-    data = []
-    users = User.objects.all()
+class GamesView(ListView):
+    model = Game
+    template_name = 'falling_equations/players.html'
+    context_object_name = 'games'
 
-    for user in users:
-        games = Game.objects.filter(author=user).order_by('-score')
-        if games:
-            data.append(games[0])
+    def get_queryset(self):
+        data = []
+        users = User.objects.all()
 
-    data = sorted(data, key=operator.attrgetter("score"), reverse=True)
-    if len(data) > 20:
-        data = data[:20]
+        for user in users:
+            games = Game.objects.filter(author=user).order_by('-score')
+            if games:
+                data.append(games[0])
 
-    context = {
-        'games': data
-    }
+        data = sorted(data, key=operator.attrgetter("score"), reverse=True)
+        if len(data) > 20:
+            data = data[:20]
 
-    return render(request, 'falling_equations/players.html', context)
+        return data
 
 
 def about(request):
