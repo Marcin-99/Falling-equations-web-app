@@ -14,6 +14,7 @@ class GamesView(ListView):
     model = Game
     template_name = 'falling_equations/players.html'
     context_object_name = 'games'
+    paginate_by = 5
 
     def get_queryset(self):
         data = []
@@ -25,8 +26,8 @@ class GamesView(ListView):
                 data.append(games[0])
 
         data = sorted(data, key=operator.attrgetter("score"), reverse=True)
-        if len(data) > 20:
-            data = data[:20]
+        if len(data) > 50:
+            data = data[:50]
 
         return data
 

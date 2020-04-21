@@ -29,7 +29,6 @@
     font-size: 18px;
     font-family: 'Shadows Into Light', cursive;
     font-weight: bold;
-    margin-bottom: 100px;
 }
 
 #playersTable thead tr {
@@ -54,4 +53,27 @@
 #playersTable tbody tr.active-row {
   font-weight: bold;
   color: #009879;
+}
+
+.navigationButton {
+    color: #009879;
+    font-weight: bold;
+    border-width: 2px;
+    border-color: #009879;
+}
+
+.navigationButton:hover {
+    color: white;
+}
+
+.currentNavigationButton {
+    color: white;
+    background-color: #009879;
+    font-weight: bold;
+    border-width: 2px;
+    border-color: #009879;
+}
+
+.currentNavigationButton:hover {
+    color: white;
 }

@@ -1,6 +1,8 @@
 #profile {
     border-radius: 20px;
     margin-top: 100px;
+    border-width: 5px;
+    border-color: #009879;
 }
 
 #games {
@@ -15,7 +17,7 @@
 
 #playersTable {
     border-collapse: collapse;
-    margin: 25px 0;
+    margin: 25px;
     font-size: 0.9em;
     min-width: 400px;
     border-radius: 5px 5px 0 0;
