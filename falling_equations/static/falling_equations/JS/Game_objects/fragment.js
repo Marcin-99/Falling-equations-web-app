@@ -18,27 +18,36 @@ export default class Fragment {
 
 
     update(deltaTime) {
-        if(!deltaTime) return;
-        if(this.direction == "Up") this.position.y -= this.speed / deltaTime;
-        else if(this.direction == "Down") this.position.y += this.speed / deltaTime;
-        else if(this.direction == "Right") this.position.x += this.speed / deltaTime;
-        else if(this.direction == "Left") this.position.x -= this.speed / deltaTime;
-
-        else if(this.direction == "UpAndLeft") {
+        if (!deltaTime) return;
+        switch (this.direction) {
+        case "Up":
+            this.position.y -= this.speed / deltaTime;
+            break;
+        case "Down":
+            this.position.y += this.speed / deltaTime;
+            break;
+        case "Right":
+            this.position.x += this.speed / deltaTime;
+            break;
+        case "Left":
+            this.position.x -= this.speed / deltaTime;
+            break;
+        case "UpAndLeft":
             this.position.x -= this.speed / deltaTime / 1.41;
             this.position.y -= this.speed / deltaTime / 1.41;
-        }
-        else if(this.direction == "UpAndRight") {
+            break;
+        case "UpAndRight":
             this.position.x += this.speed / deltaTime / 1.41;
             this.position.y -= this.speed / deltaTime / 1.41;
-        }
-        else if(this.direction == "DownAndLeft") {
+            break;
+        case "DownAndLeft":
             this.position.x -= this.speed / deltaTime / 1.41;
             this.position.y += this.speed / deltaTime / 1.41;
-        }
-        else if(this.direction == "DownAndRight") {
+            break;
+        case "DownAndRight":
             this.position.x += this.speed / deltaTime / 1.41;
             this.position.y += this.speed / deltaTime / 1.41;
+            break;
         }
     }
 }

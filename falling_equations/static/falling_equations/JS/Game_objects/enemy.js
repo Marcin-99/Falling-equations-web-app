@@ -14,7 +14,7 @@ export default class Enemy {
 
 
     draw(ctx) {
-        if(!this.changeColor) ctx.fillStyle = "#990000";
+        if (!this.changeColor) ctx.fillStyle = "#990000";
         else ctx.fillStyle = "#ff0000";
         ctx.fillRect(this.position.x, this.position.y, this.width, 5);
 
@@ -25,7 +25,7 @@ export default class Enemy {
 
 
     update(deltaTime) {
-        if(!deltaTime) return;
+        if (!deltaTime) return;
         this.position.y += this.speed / deltaTime;
     }
 

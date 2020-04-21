@@ -4,7 +4,7 @@ import Game from "./game.js";
 export default class inputHandler {
     constructor(player, projectiles, game, ctx, GAME_WIDTH, GAME_HEIGHT) {
         document.addEventListener('keydown', (event) => {
-            if(game.gameState == "RUNNING") {
+            if (game.gameState == "RUNNING") {
                 switch(event.keyCode) {
                     case 37:
                         player.moveLeft();
@@ -55,12 +55,12 @@ export default class inputHandler {
                         player.solution = player.solution.slice(0, player.solution.length - 1);
                         break;
                     case 189:
-                        if(!player.solution) player.solution += "-";
+                        if (!player.solution) player.solution += "-";
                         break;
                 }
             }
 
-            else if(game.gameState == "MENU") {
+            else if (game.gameState == "MENU") {
                 switch(event.keyCode) {
                     case 13:
                         game.changeGameState("RUNNING");
@@ -72,19 +72,19 @@ export default class inputHandler {
         document.addEventListener('keyup', (event) => {
             switch(event.keyCode) {
                 case 37:
-                    if(player.speedX < 0)
+                    if (player.speedX < 0)
                         player.stopX();
                     break;
                 case 38:
-                    if(player.speedY < 0)
+                    if (player.speedY < 0)
                         player.stopY();
                     break;
                 case 39:
-                    if(player.speedX > 0)
+                    if (player.speedX > 0)
                         player.stopX();
                     break;
                 case 40:
-                    if(player.speedY > 0)
+                    if (player.speedY > 0)
                         player.stopY();
                     break;
             }

@@ -39,27 +39,27 @@ export default class Player {
         ctx.drawImage(this.playerImage, this.position.x - 14, this.position.y, 80, 80);
         ctx.restore();
 
-        for(var i = 0; i < this.hitPoints; i++)
+        for(let i = 0; i < this.hitPoints; i++)
             ctx.drawImage(this.heart, 5 + i * 15, 5, 50, 50);
 
         ctx.fillStyle = "#00994d";
         ctx.font = "30px Spicy Rice";
-        if(this.solution.length == 1) ctx.fillText(this.solution, this.position.x + 16, this.position.y - 10);
-        if(this.solution.length == 2) ctx.fillText(this.solution, this.position.x + 8, this.position.y - 10);
-        if(this.solution.length == 3) ctx.fillText(this.solution, this.position.x, this.position.y - 10);
+        if (this.solution.length == 1) ctx.fillText(this.solution, this.position.x + 16, this.position.y - 10);
+        if (this.solution.length == 2) ctx.fillText(this.solution, this.position.x + 8, this.position.y - 10);
+        if (this.solution.length == 3) ctx.fillText(this.solution, this.position.x, this.position.y - 10);
     }
 
 
     update(deltaTime) {
-        if(!deltaTime) return;
+        if (!deltaTime) return;
         this.position.x += this.speedX / deltaTime;
         this.position.y += this.speedY / deltaTime;
 
-        if(this.position.y < 0) this.position.y = 0;
-        if(this.position.y + this.height > this.gameHeight) this.position.y = this.gameHeight - this.height;
+        if (this.position.y < 0) this.position.y = 0;
+        if (this.position.y + this.height > this.gameHeight) this.position.y = this.gameHeight - this.height;
 
-        if(this.position.x < 0) this.position.x = 0;
-        if(this.position.x + this.width > this.gameWidth) this.position.x = this.gameWidth - this.width;
+        if (this.position.x < 0) this.position.x = 0;
+        if (this.position.x + this.width > this.gameWidth) this.position.x = this.gameWidth - this.width;
     }
 
 
@@ -94,13 +94,13 @@ export default class Player {
 
 
     shoot(projectiles) {
-        if(this.solution) projectiles.push(new Projectile(this.position.x + 25, this.position.y - 10, this.solution));
+        if (this.solution) projectiles.push(new Projectile(this.position.x + 25, this.position.y - 10, this.solution));
         this.solution = "";
     }
 
 
     changeSolution(char) {
-        if(this.solution[0] == "-" && this.solution.length < 3 || this.solution[0] != "-" && this.solution.length < 2)
+        if (this.solution[0] == "-" && this.solution.length < 3 || this.solution[0] != "-" && this.solution.length < 2)
             this.solution += char;
     }
 }

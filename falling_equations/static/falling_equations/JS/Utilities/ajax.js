@@ -7,8 +7,8 @@ const sendHttpRequest = (method, url, data) => {
         Http.open(method, url);
 
         Http.responseType = "json";
-        var csrftoken = getCookie('csrftoken');
-        if(data) {
+        let csrftoken = getCookie('csrftoken');
+        if (data) {
             Http.setRequestHeader('X-CSRFToken', csrftoken);
         }
 
@@ -46,9 +46,9 @@ export function getRandomEquation(LVL, GAME_WIDTH, GAME_HEIGHT, EnemyClass, enem
         const solution = data[data.length - 1];
         data.pop();
         data.pop();
-        var equation = makeStringFromData(data);
+        let equation = makeStringFromData(data);
 
-        var randomEquation = {
+        let randomEquation = {
             equation: equation,
             solution: solution,
         }
