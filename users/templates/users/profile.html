@@ -1,8 +1,12 @@
 {% extends "falling_equations/layout.html" %}
 {% load crispy_forms_tags %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'users/CSS/style.css' %}">
+{% endblock css %}
 
 {% block content %}
-
 <div class="content-section">
     <div id="profile" class="card card-body">
         <div class="media mb-5">
@@ -23,6 +27,28 @@
             </div>
         </form>
     </div>
+    <div id="games" class="text-center">
+        <span id="gamesText">Your best games so far</span>
+        <table id="playersTable">
+            <thead>
+                <tr>
+                    <th>Level</th>
+                    <th>Score</th>
+                    <th>Lost To Equation</th>
+                    <th>Played</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in games %}
+                    <tr>
+                        <td>{{ record.level }}</td>
+                        <td>{{ record.score }}</td>
+                        <td>{{ record.last_equation }}</td>
+                        <td>{{ record.date_played }}</td>
+                     </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
-
 {% endblock content %}

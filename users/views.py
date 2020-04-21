@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from .forms import UserRegistrationForm, UserUpdateForm, ProfileUpdateForm
+from falling_equations.models import Game
 
 
 def register(request):
@@ -35,9 +37,20 @@ def profile(request):
         user_form = UserUpdateForm(instance=request.user)
         profile_form = ProfileUpdateForm()
 
+    current_user = request.user
+    games = Game.objects.filter(author=current_user).order_by('-score')
+
+    if len(games) > 5:
+        i = 5
+        while i < len(games):
+            games[i].delete()
+            i += 1
+    games = games[:5]
+
     context = {
         'user_form': user_form,
-        'profile_form': profile_form
+        'profile_form': profile_form,
+        'games':  games
     }
 
     return render(request, 'users/profile.html', context)

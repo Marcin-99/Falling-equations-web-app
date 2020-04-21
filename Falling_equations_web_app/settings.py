@@ -124,6 +124,12 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATICFILES_DIRS = [
+    '/falling_equations/static/',
+    '/equations_generator/static/',
+    '/users/static/',
+]
+
 """Path to the folder, where django will store uploaded files."""
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'

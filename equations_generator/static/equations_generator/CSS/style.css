@@ -1,0 +1,12 @@
+#equation_section {
+    text-align: center;
+    font-size: 40px;
+}
+
+#equation {
+    text-align: center;
+    border: none;
+    border-radius: 10px;
+    font-size: 40px;
+    letter-spacing: 5px;
+}

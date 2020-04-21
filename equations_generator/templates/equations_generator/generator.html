@@ -1,8 +1,12 @@
 {% extends "falling_equations/layout.html" %}
 {% load crispy_forms_tags %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'equations_generator/CSS/style.css' %}">
+{% endblock css %}
 
 {% block content %}
-
 <div>
     <form method="POST" class="font-weight-bolder">
         {% csrf_token %}
@@ -15,7 +19,6 @@
         </div>
     </form>
 </div>
-
 {% endblock content %}
 
 {% block script %}

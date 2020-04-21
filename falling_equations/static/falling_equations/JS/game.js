@@ -26,6 +26,7 @@ export default class Game {
         this.player = new Player(GAME_WIDTH, GAME_HEIGHT);
         this.backgroundMusic = document.getElementById("backgroundMusic");
         this.enemyHitSound = document.getElementById("enemyHit");
+        this.lostHealthSound = document.getElementById("lostHealth");
         this.isMusicPlayed = false;
         this.lastEquation = "";
         new inputHandler(this.player, this.projectiles, this);
@@ -138,6 +139,8 @@ export default class Game {
             if(this.enemies[i].position.y > this.GAME_HEIGHT - this.enemies[i].height) {
                 this.lastEquation = this.enemies[i].equation
                 this.player.hitPoints -= 1;
+                this.lostHealthSound.volume = 0.3;
+                this.lostHealthSound.play();
                 this.enemies.splice(i, 1);
                 i--;
                 this.equationCounter += 1;
