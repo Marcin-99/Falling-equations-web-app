@@ -13,11 +13,11 @@
     </h1>
     <canvas id="canvas"></canvas>
 
-    <img id="sourceHeart" src="{% static 'falling_equations/images/heart.png' %}">
     <img id="sourceProfileImage" src="{{ user.profile.image.url }}">
-    <audio id="backgroundMusic" src="{% static 'falling_equations/sound_effects/n-Dimensions (Main Theme).mp3' %}" allow="autoplay" volume="0.2">
-    <audio id="enemyHit" src="{% static 'falling_equations/sound_effects/NenadSimic - Muffled Distant Explosion.mp3' %}" allow="autoplay">
-    <audio id="lostHealth" src="{% static 'falling_equations/sound_effects/8bit_bomb_explosion.wav' %}" allow="autoplay">
+    <img id="sourceHeart" src="https://falling-equations-web-app.s3.eu-west-2.amazonaws.com/assets/heart.png">
+    <audio id="backgroundMusic" src="https://falling-equations-web-app.s3.eu-west-2.amazonaws.com/sound_effects/n-Dimensions+(Main+Theme).mp3" allow="autoplay" volume="0.2">
+    <audio id="enemyHit" src="https://falling-equations-web-app.s3.eu-west-2.amazonaws.com/sound_effects/NenadSimic+-+Muffled+Distant+Explosion.mp3" allow="autoplay">
+    <audio id="lostHealth" src="https://falling-equations-web-app.s3.eu-west-2.amazonaws.com/sound_effects/8bit_bomb_explosion.wav" allow="autoplay">
 </div>
 {% endblock content %}
 

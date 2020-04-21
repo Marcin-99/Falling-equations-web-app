@@ -1,11 +1,13 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView
 from .models import Game
 import json
 import operator
 
 
+@login_required
 def home(request):
     return render(request, 'falling_equations/home.html')
 

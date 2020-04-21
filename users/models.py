@@ -5,8 +5,10 @@ from PIL import Image
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    image = models.ImageField(default='user_default.png', upload_to='profile_pictures')
-
+    image = models.ImageField(default='user-default.png', upload_to='profile_pictures')
+    '''
+    It only works on local machine:
+    
     def save(self, *args, **kwargs):
         super().save()
         img = Image.open(self.image.path)
@@ -14,6 +16,7 @@ class Profile(models.Model):
             size = (400, 400)
             img.thumbnail(size)
             img.save(self.image.path)
+    '''
 
     def __str__(self):
-        return f'{self.user.username} profile'
+        return f'Profile for {self.user.username}.'
