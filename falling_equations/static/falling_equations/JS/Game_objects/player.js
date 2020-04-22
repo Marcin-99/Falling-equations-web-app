@@ -5,7 +5,7 @@ export default class Player {
     constructor(gameWidth, gameHeight) {
         this.gameWidth = gameWidth;
         this.gameHeight = gameHeight;
-        this.hitPoints = 3;
+        this.hitPoints = 5;
         this.width = 50;
         this.height = 50;
         this.maxSpeedX = 100;
@@ -39,7 +39,7 @@ export default class Player {
         ctx.drawImage(this.playerImage, this.position.x - 14, this.position.y, 80, 80);
         ctx.restore();
 
-        for(let i = 0; i < this.hitPoints; i++)
+        for (let i = 0; i < this.hitPoints; i++)
             ctx.drawImage(this.heart, 5 + i * 15, 5, 50, 50);
 
         ctx.fillStyle = "#00994d";

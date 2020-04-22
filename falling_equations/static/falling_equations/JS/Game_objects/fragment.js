@@ -1,6 +1,8 @@
 export default class Fragment {
     constructor (posX, posY, char, direction) {
         this.char = char;
+        this.width = 5;
+        this.height = 5;
         this.direction = direction;
         this.speed = 100;
         this.position = {

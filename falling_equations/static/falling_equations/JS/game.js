@@ -56,6 +56,7 @@ export default class Game {
 
                 this.manageCollisionsOfProjectilesAndEnemiesWithTheWall();
                 this.manageCollisionsBetweenProjectilesAndEnemies();
+                this.manageCollisionsBetweenPlayerEnemiesAndFragments();
 
                 this.drawEveryObjectForGame(deltaTime);
                 break;
@@ -104,21 +105,21 @@ export default class Game {
         this.player.update(deltaTime);
         this.player.draw(this.ctx);
 
-        for(let i = 0; i < this.projectiles.length; i++)
+        for (let i = 0; i < this.projectiles.length; i++)
         {
             this.projectiles[i].update(deltaTime);
             this.projectiles[i].draw(this.ctx);
             if (this.projectiles[i].changedColorForProperValue == false) this.projectiles[i].getRealWidthOfTheProjectile(this.ctx);
         }
 
-        for(let i = 0; i < this.enemies.length; i++)
+        for (let i = 0; i < this.enemies.length; i++)
         {
             this.enemies[i].update(deltaTime);
             this.enemies[i].draw(this.ctx);
             if (this.enemies[i].changedColorForProperValue == false) this.enemies[i].getRealWidthOfTheEnemy(this.ctx);
         }
 
-        for(let i = 0; i < this.fragments.length; i++)
+        for (let i = 0; i < this.fragments.length; i++)
         {
             this.fragments[i].update(deltaTime);
             this.fragments[i].draw(this.ctx);
@@ -127,7 +128,7 @@ export default class Game {
 
 
     manageCollisionsOfProjectilesAndEnemiesWithTheWall () {
-        for(let i = 0; i < this.projectiles.length; i++)
+        for (let i = 0; i < this.projectiles.length; i++)
         {
             if (this.projectiles[i].position.y < 30) {
                 this.projectiles.splice(i, 1);
@@ -135,24 +136,17 @@ export default class Game {
             }
         }
 
-        for(let i = 0; i < this.enemies.length; i++)
+        for (let i = 0; i < this.enemies.length; i++)
         {
             if (this.enemies[i].position.y > this.GAME_HEIGHT - this.enemies[i].height) {
-                this.lastEquation = this.enemies[i].equation
-                this.player.hitPoints -= 1;
+                this.player.hitPoints = 0;
                 this.lostHealthSound.volume = 0.3;
                 this.lostHealthSound.play();
-                this.enemies.splice(i, 1);
-                i--;
-                this.equationCounter += 1;
-                if (this.equationCounter % 3 == 0 && this.equationCounter != 0) {
-                    this.LVL += 1;
-                    setIntervalLimited(getRandomEquation, 5000, 3, this.LVL, this.GAME_WIDTH, this.GAME_HEIGHT, Enemy, this.enemies);
-                }
+                this.lastEquation = enemies[i].equation;
             }
         }
 
-        for(let i = 0; i < this.fragments.length; i++)
+        for (let i = 0; i < this.fragments.length; i++)
         {
             if (this.fragments[i].position.x > this.GAME_WIDTH || this.fragments[i].position.x < 0 ||
                this.fragments[i].position.y > this.GAME_HEIGHT || this.fragments[i].position.y < 0) {
@@ -163,7 +157,7 @@ export default class Game {
 
 
     manageCollisionsBetweenProjectilesAndEnemies () {
-        for(let i = 0; i < this.projectiles.length; i++)
+        for (let i = 0; i < this.projectiles.length; i++)
         {
             /*Checking all collisions between enemies and projectiles*/
             for(let j = 0; j < this.enemies.length; j++)
@@ -193,6 +187,36 @@ export default class Game {
     }
 
 
+    manageCollisionsBetweenPlayerEnemiesAndFragments () {
+        for (let i = 0; i < this.fragments.length; i++) {
+            if (isCollision(this.fragments[i], this.player)) {
+                this.lastEquation = "Fragment: " + this.fragments[i].char;
+                this.player.hitPoints -= 1;
+                this.lostHealthSound.volume = 0.3;
+                this.lostHealthSound.play();
+                this.fragments.splice(i, 1);
+                i -= 1;
+            }
+        }
+
+        for (let i = 0; i < this.enemies.length; i++) {
+            if (isCollision(this.enemies[i], this.player)) {
+                this.lastEquation = this.enemies[i].equation;
+                this.player.hitPoints -= 1;
+                this.lostHealthSound.volume = 0.3;
+                this.lostHealthSound.play();
+                this.enemies.splice(i, 1);
+                this.equationCounter += 1;
+                if (this.equationCounter % 3 == 0 && this.equationCounter != 0) {
+                    this.LVL += 1;
+                    setIntervalLimited(getRandomEquation, 5000, 3, this.LVL, this.GAME_WIDTH, this.GAME_HEIGHT, Enemy, this.enemies);
+                }
+                i -= 1;
+            }
+        }
+    }
+
+
     setValuesInHtml () {
         /*Write LVL and number of points.*/
         document.getElementById("LVL").innerHTML = "LVL: " + this.LVL;
@@ -211,7 +235,7 @@ export default class Game {
         const savedWidth = enemy.width;
         let direction = "";
 
-        for(let i = 0; i < equationLength; i++) {
+        for (let i = 0; i < equationLength; i++) {
             let char = enemy.equation[0];
 
             direction = getDirectionForEveryFragment(equationLength, i);

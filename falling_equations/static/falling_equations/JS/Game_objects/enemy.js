@@ -1,9 +1,9 @@
 export default class Enemy {
     constructor(posX, posY, equation, solution) {
         this.width = equation.length * 17 + 20;
+        this.height = 5;
         this.changedColorForProperValue = false;
-        this.height = 20;
-        this.speed = 50;
+        this.speed = 20;
         this.position = {
             x: posX,
             y: posY,
