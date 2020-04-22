@@ -16,7 +16,7 @@ export default class explosiveBomb {
 
         if (!this.isDragged) {
             ctx.fillStyle = "#ffffff";
-            ctx.fillText("x" + count, this.position.x + 35, this.position.y + 60);
+            ctx.fillText("x" + count, this.position.x + 32, this.position.y + 74);
         }
     }
 

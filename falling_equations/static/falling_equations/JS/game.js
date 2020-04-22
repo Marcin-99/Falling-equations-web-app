@@ -55,7 +55,6 @@ export default class Game {
                     this.gameStarted = true;
                 }
                 this.playMusic();
-                this.setValuesInHtml();
                 console.log(this.equationCounter);
                 this.manageCollisionsOfProjectilesAndEnemiesWithTheWall();
                 this.manageCollisionsBetweenProjectilesAndEnemies();
@@ -217,19 +216,6 @@ export default class Game {
                 i -= 1;
             }
         }
-    }
-
-
-    setValuesInHtml () {
-        /*Write LVL and number of points.*/
-        document.getElementById("LVL").innerHTML = "LVL: " + this.LVL;
-        document.getElementById("points").innerHTML = "SCORE: " + this.points;
-
-        document.getElementById("infobar").style.display = "block";
-        /*Change color of LVL and points when LVL increases.*/
-        let color = 8 - this.LVL;
-        color = color.toString() + color.toString() + color.toString() + color.toString();
-        document.getElementById("infobar").style.color = "#ff" + color;
     }
 
 

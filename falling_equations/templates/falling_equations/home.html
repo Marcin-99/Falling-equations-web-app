@@ -7,10 +7,6 @@
 
 {% block content %}
 <div id="home">
-    <h1 id="infobar" class="bg-light font-weight-bold">
-        <span id="LVL"></span>
-        <span id="points" class="text-left ml-5"></span>
-    </h1>
     <canvas id="canvas"></canvas>
 
     <img id="sourceProfileImage" src="{{ user.profile.image.url }}">
@@ -19,6 +15,7 @@
     <audio id="backgroundMusic" src="https://falling-equations-web-app.s3.eu-west-2.amazonaws.com/sound_effects/n-Dimensions+(Main+Theme).mp3" allow="autoplay" volume="0.2">
     <audio id="enemyHit" src="https://falling-equations-web-app.s3.eu-west-2.amazonaws.com/sound_effects/NenadSimic+-+Muffled+Distant+Explosion.mp3" allow="autoplay">
     <audio id="lostHealth" src="https://falling-equations-web-app.s3.eu-west-2.amazonaws.com/sound_effects/8bit_bomb_explosion.wav" allow="autoplay">
+    <audio id="explosion" src="https://falling-equations-web-app.s3.eu-west-2.amazonaws.com/sound_effects/DeathFlash.mp3" allow="autoplay">
 </div>
 {% endblock content %}
 

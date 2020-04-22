@@ -102,11 +102,12 @@ export default class inputHandler {
         document.addEventListener('mouseup', function(evt) {
             for (let i = 0; i < enemies.length; i++) {
                 if (isCollision(bomb, enemies[i])) {
+                    let explosion = document.getElementById("explosion");
+                    explosion.volume = 1;
+                    explosion.play();
                     game.equationCounter += 1;
                     enemies.splice(i, 1);
                     game.generateEquationsHandler();
-                    enemyHitSound.volume = 1;
-                    enemyHitSound.play();
                     player.explosiveBombs -= 1;
                     break;
                 }

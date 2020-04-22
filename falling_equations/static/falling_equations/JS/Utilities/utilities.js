@@ -19,7 +19,7 @@ export function isCollision(object1, object2)
 
 /*Push new enemy to a list with arguments given by previous function after getting json response from Python script*/
 export function pushNewEnemy(randomEquation, GAME_WIDTH, GAME_HEIGHT, EnemyClass, enemies) {
-    let randomPosX = Math.floor(Math.random() * (GAME_WIDTH - 100) + 100);
+    let randomPosX = Math.floor(Math.random() * (GAME_WIDTH - 150) + 150);
     let newEnemy = new EnemyClass(randomPosX, 10, randomEquation.equation, randomEquation.solution);
 
     while(newEnemy.position.x + newEnemy.width > GAME_WIDTH)

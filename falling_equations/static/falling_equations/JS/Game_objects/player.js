@@ -15,8 +15,8 @@ export default class Player {
         this.speedY = 0;
         this.solution = "";
         this.position = {
-            x: 100,
-            y: 100,
+            x: gameWidth/2,
+            y: gameHeight - 100,
         }
         this.heart = document.getElementById("sourceHeart");
         this.playerImage = document.getElementById("sourceProfileImage");
