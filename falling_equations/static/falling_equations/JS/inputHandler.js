@@ -1,8 +1,9 @@
 import Game from "./game.js";
+import {getMousePos, isCollision} from "./Utilities/utilities.js";
 
 
 export default class inputHandler {
-    constructor(player, projectiles, game, ctx, GAME_WIDTH, GAME_HEIGHT) {
+    constructor(player, projectiles, game, canvas, bomb, enemies, enemyHitSound) {
         document.addEventListener('keydown', (event) => {
             if (game.gameState == "RUNNING") {
                 switch(event.keyCode) {
@@ -89,5 +90,53 @@ export default class inputHandler {
                     break;
             }
         });
+
+        document.addEventListener('mousedown', function(evt) {
+            var mousePos = getMousePos(canvas, evt);
+
+            if (mousePos.x > bomb.position.x && mousePos.x < bomb.position.x + bomb.width &&
+                mousePos.y > bomb.position.y && mousePos.y < bomb.position.y + bomb.height)
+                bomb.isDragged = true;
+        }, false);
+
+        document.addEventListener('mouseup', function(evt) {
+            for (let i = 0; i < enemies.length; i++) {
+                if (isCollision(bomb, enemies[i])) {
+                    game.equationCounter += 1;
+                    enemies.splice(i, 1);
+                    game.generateEquationsHandler();
+                    enemyHitSound.volume = 1;
+                    enemyHitSound.play();
+                    player.explosiveBombs -= 1;
+                    break;
+                }
+            }
+
+            bomb.position.x = 10;
+            bomb.position.y = 180;
+            bomb.isDragged = false;
+        }, false);
+
+        document.addEventListener('mousemove', function(evt) {
+            var mousePos = getMousePos(canvas, evt);
+
+            if (bomb.isDragged) {
+                bomb.update(mousePos);
+            }
+
+        }, false);
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -2,14 +2,15 @@ import Player from "./Game_objects/player.js";
 import Projectile from "./Game_objects/projectile.js";
 import Enemy from "./Game_objects/enemy.js";
 import Fragment from "./Game_objects/fragment.js";
+import explosiveBomb from "./Game_objects/explosiveBomb.js";
 import inputHandler from "./inputHandler.js";
 import {makeStringFromData, isCollision, pushNewEnemy, checkSolutions,
-        setIntervalLimited, getDirectionForEveryFragment} from "./Utilities/utilities.js";
+        setIntervalLimited, getDirectionForEveryFragment, getMousePos} from "./Utilities/utilities.js";
 import {saveGame, getRandomEquation} from "./Utilities/ajax.js";
 
 
 export default class Game {
-    constructor(ctx, GAME_WIDTH, GAME_HEIGHT) {
+    constructor(ctx, canvas, GAME_WIDTH, GAME_HEIGHT) {
         this.gameState = "MENU";
         this.gameStarted = false;
         this.ctx = ctx;
@@ -28,7 +29,9 @@ export default class Game {
         this.lostHealthSound = document.getElementById("lostHealth");
         this.isMusicPlayed = false;
         this.lastEquation = "";
-        new inputHandler(this.player, this.projectiles, this);
+        this.bomb = new explosiveBomb(10, 180);
+
+        new inputHandler(this.player, this.projectiles, this, canvas, this.bomb, this.enemies, this.enemyHitSound);
         this.startGameLoop();
     }
 
@@ -53,7 +56,7 @@ export default class Game {
                 }
                 this.playMusic();
                 this.setValuesInHtml();
-
+                console.log(this.equationCounter);
                 this.manageCollisionsOfProjectilesAndEnemiesWithTheWall();
                 this.manageCollisionsBetweenProjectilesAndEnemies();
                 this.manageCollisionsBetweenPlayerEnemiesAndFragments();
@@ -101,6 +104,10 @@ export default class Game {
     drawEveryObjectForGame (deltaTime) {
         this.ctx.clearRect(0, 0, this.GAME_WIDTH, this.GAME_HEIGHT);
 
+        this.ctx.fillStyle = "#000000";
+        this.ctx.fillText("LVL: " + this.LVL, 10, 40);
+        this.ctx.fillText("SCORE: " + this.points, 10, 80);
+
         this.ctx.textAlign = "left";
         this.player.update(deltaTime);
         this.player.draw(this.ctx);
@@ -124,6 +131,8 @@ export default class Game {
             this.fragments[i].update(deltaTime);
             this.fragments[i].draw(this.ctx);
         }
+
+        this.bomb.draw(this.ctx, this.player.explosiveBombs);
     }
 
 
@@ -142,7 +151,7 @@ export default class Game {
                 this.player.hitPoints = 0;
                 this.lostHealthSound.volume = 0.3;
                 this.lostHealthSound.play();
-                this.lastEquation = enemies[i].equation;
+                this.lastEquation = this.enemies[i].equation;
             }
         }
 
@@ -168,10 +177,7 @@ export default class Game {
                     {
                         this.equationCounter += 1;
                         this.points += 1;
-                        if (this.equationCounter % 3 == 0 && this.equationCounter != 0) {
-                            this.LVL += 1;
-                            setIntervalLimited(getRandomEquation, 5000, 3, this.LVL, this.GAME_WIDTH, this.GAME_HEIGHT, Enemy, this.enemies);
-                        }
+                        this.generateEquationsHandler();
                         this.enemyHitSound.volume = 1;
                         this.enemyHitSound.play();
                         this.createFragments(this.enemies[j]);
@@ -207,10 +213,7 @@ export default class Game {
                 this.lostHealthSound.play();
                 this.enemies.splice(i, 1);
                 this.equationCounter += 1;
-                if (this.equationCounter % 3 == 0 && this.equationCounter != 0) {
-                    this.LVL += 1;
-                    setIntervalLimited(getRandomEquation, 5000, 3, this.LVL, this.GAME_WIDTH, this.GAME_HEIGHT, Enemy, this.enemies);
-                }
+                this.generateEquationsHandler();
                 i -= 1;
             }
         }
@@ -250,5 +253,13 @@ export default class Game {
 
     changeGameState (newGameState) {
        this.gameState = newGameState;
+    }
+
+
+    generateEquationsHandler () {
+        if (this.equationCounter % 3 == 0 && this.equationCounter != 0) {
+            this.LVL += 1;
+            setIntervalLimited(getRandomEquation, 5000, 3, this.LVL, this.GAME_WIDTH, this.GAME_HEIGHT, Enemy, this.enemies);
+        }
     }
 }

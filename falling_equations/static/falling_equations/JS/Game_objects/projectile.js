@@ -8,7 +8,7 @@ export default class Projectile {
         this.position = {
         x: posX,
         y: posY,
-        }
+        };
     }
 
 
