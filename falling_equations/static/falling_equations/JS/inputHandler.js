@@ -102,6 +102,7 @@ export default class inputHandler {
         document.addEventListener('mouseup', function(evt) {
             for (let i = 0; i < enemies.length; i++) {
                 if (isCollision(bomb, enemies[i])) {
+                    game.createFragments(enemies[i]);
                     let explosion = document.getElementById("explosion");
                     explosion.volume = 1;
                     explosion.play();
