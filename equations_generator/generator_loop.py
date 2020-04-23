@@ -2,8 +2,7 @@ from .equation_class import EquationGenerator
 
 
 def main_loop(n, min_value, max_value):
-    loop = True
-    while loop:
+    while True:
         try:
             generator = EquationGenerator(n, min_value, max_value)
             generator.generate_equation()
@@ -13,7 +12,8 @@ def main_loop(n, min_value, max_value):
             if generator.handle_exceptions():
                 generator.equation.append(int(generator.solution))
                 generator.create_equation_string()
-                loop = False
+                print(len(generator.equation))
+                break
         except:
             continue
 

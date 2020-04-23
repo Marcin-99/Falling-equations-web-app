@@ -12,6 +12,9 @@ class Game(models.Model):
     last_equation = models.CharField(max_length=63)
     date_played = models.DateTimeField(default=make_aware(datetime.datetime.now()))
 
+    def __str__(self):
+        return f"It is a game record with score equal to {self.score}."
+
     def get_absolute_url(self):
         return reverse('profile')
 
