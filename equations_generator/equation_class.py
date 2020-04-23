@@ -3,6 +3,7 @@ import random
 
 
 class EquationGenerator:
+
     def __init__(self, num_of_arguments, min_value, max_value):
         self.num_of_arguments = num_of_arguments
         self.min_value = min_value

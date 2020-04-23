@@ -7,7 +7,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(default='user-default.png', upload_to='profile_pictures')
     '''
-    It only works on local machine:
+    It only works on local machine. Currently app is not resizing profile pictures.
     
     def save(self, *args, **kwargs):
         super().save()

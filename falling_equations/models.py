@@ -5,7 +5,6 @@ from django.urls import reverse
 import datetime
 
 
-
 class Game(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     level = models.IntegerField()
