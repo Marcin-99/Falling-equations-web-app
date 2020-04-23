@@ -1,9 +1,10 @@
 export default class Fragment {
-    constructor (posX, posY, char, direction) {
+    constructor (posX, posY, char, direction, color) {
         this.char = char;
         this.width = 5;
         this.height = 5;
         this.direction = direction;
+        this.color = color;
         this.speed = 100;
         this.position = {
             x: posX,
@@ -13,7 +14,7 @@ export default class Fragment {
 
 
     draw(ctx) {
-        ctx.fillStyle = "#990000";
+        ctx.fillStyle = this.color;
         ctx.font = "30px Spicy Rice";
         ctx.fillText(this.char, this.position.x, this.position.y);
     }

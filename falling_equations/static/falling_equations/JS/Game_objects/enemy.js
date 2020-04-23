@@ -10,15 +10,15 @@ export default class Enemy {
         }
         this.equation = equation;
         this.solution = solution;
+        this.color = "#c94c4c";
     }
 
 
     draw(ctx) {
-        if (!this.changeColor) ctx.fillStyle = "#990000";
-        else ctx.fillStyle = "#ff0000";
+        if (this.speed == 0) this.color = "#4da6ff";
+        ctx.fillStyle = this.color;
         ctx.fillRect(this.position.x, this.position.y, this.width, 5);
 
-        ctx.fillStyle = "#990000";
         ctx.font = "30px Spicy Rice";
         ctx.fillText(this.equation, this.position.x, this.position.y - 10);
     }

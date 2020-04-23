@@ -2,7 +2,7 @@ export default class explosiveBomb {
     constructor (posX, posY) {
         this.width = 100;
         this.height = 100;
-        this.image = document.getElementById("iceBomb");
+        this.image = document.getElementById("explosiveBomb");
         this.isDragged = false;
         this.position = {
         x: posX,
@@ -11,13 +11,8 @@ export default class explosiveBomb {
     }
 
 
-    draw (ctx, count) {
+    draw (ctx) {
         ctx.drawImage(this.image, this.position.x, this.position.y, 100, 100);
-
-        if (!this.isDragged) {
-            ctx.fillStyle = "#ffffff";
-            ctx.fillText("x" + count, this.position.x + 32, this.position.y + 74);
-        }
     }
 
 

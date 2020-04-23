@@ -3,6 +3,7 @@ import Projectile from "./Game_objects/projectile.js";
 import Enemy from "./Game_objects/enemy.js";
 import Fragment from "./Game_objects/fragment.js";
 import explosiveBomb from "./Game_objects/explosiveBomb.js";
+import freezingBomb from "./Game_objects/freezingBomb.js";
 import inputHandler from "./inputHandler.js";
 import {makeStringFromData, isCollision, pushNewEnemy, checkSolutions,
         setIntervalLimited, getDirectionForEveryFragment, getMousePos} from "./Utilities/utilities.js";
@@ -19,19 +20,23 @@ export default class Game {
         this.projectiles = [];
         this.enemies = [];
         this.fragments = [];
+        this.explosiveBombs = [];
+        this.freezingBombs = [];
         this.LVL = 1;
         this.points = 0;
         this.equationCounter = 0;
         this.lastTime = 0;
         this.player = new Player(GAME_WIDTH, GAME_HEIGHT);
         this.backgroundMusic = document.getElementById("backgroundMusic");
+        this.backgroundMusic.loop = true;
         this.enemyHitSound = document.getElementById("enemyHit");
         this.lostHealthSound = document.getElementById("lostHealth");
         this.isMusicPlayed = false;
         this.lastEquation = "";
-        this.bomb = new explosiveBomb(10, 180);
+        this.explosiveBombs.push(new explosiveBomb(10, 180));
+        this.freezingBombs.push(new freezingBomb(18, 300));
 
-        new inputHandler(this.player, this.projectiles, this, canvas, this.bomb, this.enemies, this.enemyHitSound);
+        new inputHandler(this.player, this.projectiles, this, canvas, this.explosiveBombs, this.freezingBombs, this.enemies, this.enemyHitSound);
         this.startGameLoop();
     }
 
@@ -55,7 +60,6 @@ export default class Game {
                     this.gameStarted = true;
                 }
                 this.playMusic();
-                console.log(this.equationCounter);
                 this.manageCollisionsOfProjectilesAndEnemiesWithTheWall();
                 this.manageCollisionsBetweenProjectilesAndEnemies();
                 this.manageCollisionsBetweenPlayerEnemiesAndFragments();
@@ -131,7 +135,21 @@ export default class Game {
             this.fragments[i].draw(this.ctx);
         }
 
-        this.bomb.draw(this.ctx, this.player.explosiveBombs);
+        for (let i = 0; i < this.explosiveBombs.length; i++) {
+            this.explosiveBombs[i].draw(this.ctx);
+        }
+        if (this.explosiveBombs.length > 0) {
+            this.ctx.fillStyle = "#ffffff";
+            this.ctx.fillText(this.explosiveBombs.length, this.explosiveBombs[0].position.x + 40, this.explosiveBombs[0].position.y + 74);
+        }
+
+        for (let i = 0; i < this.freezingBombs.length; i++) {
+            this.freezingBombs[i].draw(this.ctx);
+        }
+        if (this.freezingBombs.length > 0) {
+            this.ctx.fillStyle = "#ffffff";
+            this.ctx.fillText(this.freezingBombs.length, this.freezingBombs[0].position.x + 36, this.freezingBombs[0].position.y + 56);
+        }
     }
 
 
@@ -175,11 +193,11 @@ export default class Game {
                     if (checkSolutions(this.projectiles[i], this.enemies[j]))
                     {
                         this.equationCounter += 1;
-                        this.points += 1;
+                        this.points += 50;
                         this.generateEquationsHandler();
                         this.enemyHitSound.volume = 1;
                         this.enemyHitSound.play();
-                        this.createFragments(this.enemies[j]);
+                        this.createFragments(this.enemies[j], "#00994d");
                         this.enemies.splice(j, 1);
                         j--;
                     }
@@ -219,7 +237,8 @@ export default class Game {
     }
 
 
-    createFragments (enemy) {
+    createFragments (enemy, color) {
+        if (enemy.speed == 0) color = "#66b3ff";
         const equationLength = enemy.equation.length;
         const savedWidth = enemy.width;
         let direction = "";
@@ -229,7 +248,7 @@ export default class Game {
 
             direction = getDirectionForEveryFragment(equationLength, i);
 
-            this.fragments.push(new Fragment(enemy.position.x + savedWidth - enemy.width, enemy.position.y, char, direction));
+            this.fragments.push(new Fragment(enemy.position.x + savedWidth - enemy.width, enemy.position.y, char, direction, color));
 
             enemy.equation = enemy.equation.slice(1, enemy.equation.length);
             enemy.getRealWidthOfTheEnemy(this.ctx);
@@ -247,5 +266,8 @@ export default class Game {
             this.LVL += 1;
             setIntervalLimited(getRandomEquation, 5000, 3, this.LVL, this.GAME_WIDTH, this.GAME_HEIGHT, Enemy, this.enemies);
         }
+
+        if (this.equationCounter % 6 == 0 && this.equationCounter != 0) this.explosiveBombs.push(new explosiveBomb(10, 180));
+        if (this.equationCounter % 6 == 0 && this.equationCounter != 0) this.freezingBombs.push(new freezingBomb(18, 300));
     }
 }

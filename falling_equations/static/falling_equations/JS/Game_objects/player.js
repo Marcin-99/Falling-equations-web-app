@@ -6,7 +6,6 @@ export default class Player {
         this.gameWidth = gameWidth;
         this.gameHeight = gameHeight;
         this.hitPoints = 5;
-        this.explosiveBombs = 3;
         this.width = 50;
         this.height = 50;
         this.maxSpeedX = 100;
