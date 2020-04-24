@@ -35,8 +35,16 @@ class TestViews(TestCase):
         response = about(request)
         assert response.status_code == 200
 
-    def test_save_game(self):
+    def test_save_game_authenticated(self):
         path = reverse('falling-equations-save')
         request = self.factory.get(path)
+        request.user = mixer.blend(User)
         response = save_game(request)
-        assert response.status_code == 200
+        assert response.status_code == 302
+
+    def test_save_game_unauthenticated(self):
+        path = reverse('falling-equations-save')
+        request = self.factory.get(path)
+        request.user = AnonymousUser()
+        response = save_game(request)
+        assert 'login' in response.url

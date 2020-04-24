@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView
@@ -38,10 +38,11 @@ def about(request):
     return render(request, 'falling_equations/about.html')
 
 
+@login_required
 def save_game(request):
     if request.method == 'POST':
         data = json.loads(request.body.decode('utf-8'))
         Game.objects.create(author=request.user, level=data['level'],
                             score=data['score'], last_equation=data['last_equation'])
 
-    return render(request, 'falling_equations/about.html')
+    return redirect('falling-equations-home')
