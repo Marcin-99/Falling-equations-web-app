@@ -30,7 +30,9 @@
             </div>
         </form>
     </div>
+
     <div id="games" class="text-center playerProfileTalbe">
+        {% if games %}
         <span id="gamesText">Your best games so far</span>
         <table id="playersTable">
             <thead>
@@ -52,8 +54,12 @@
                 {% endfor %}
             </tbody>
         </table>
+        {% else %}
+        <span id="gamesText">You haven't played any games yet.</span>
+        {% endif %}
     </div>
 </div>
+
 {% endblock content %}
 
 {% block script %}

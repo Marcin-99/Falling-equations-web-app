@@ -1,4 +1,5 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
+from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView
@@ -44,5 +45,6 @@ def save_game(request):
         data = json.loads(request.body.decode('utf-8'))
         Game.objects.create(author=request.user, level=data['level'],
                             score=data['score'], last_equation=data['last_equation'])
-
-    return redirect('falling-equations-home')
+        return HttpResponse(status=201)
+    else:
+        return HttpResponse(status=200)

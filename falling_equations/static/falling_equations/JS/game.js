@@ -267,7 +267,7 @@ export default class Game {
             setIntervalLimited(getRandomEquation, 5000, 3, this.LVL, this.GAME_WIDTH, this.GAME_HEIGHT, Enemy, this.enemies);
         }
 
-        if (this.equationCounter % 6 == 0 && this.equationCounter != 0) this.explosiveBombs.push(new explosiveBomb(10, 180));
-        if (this.equationCounter % 6 == 0 && this.equationCounter != 0) this.freezingBombs.push(new freezingBomb(18, 300));
+        if (this.equationCounter % 9 == 0 && this.equationCounter != 0) this.explosiveBombs.push(new explosiveBomb(10, 180));
+        if (this.equationCounter % 9 == 0 && this.equationCounter != 0) this.freezingBombs.push(new freezingBomb(18, 300));
     }
 }
