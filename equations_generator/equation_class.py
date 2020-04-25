@@ -30,11 +30,9 @@ class EquationGenerator:
             if scope == 16 or scope == 17:
                 char = "^"
             if scope > 17 and scope < 26:
+
                 if last(chars_list, i) != ")" and last(chars_list, i) != "(" and i < self.num_of_arguments - 2:
-                    if top(parenthesis_list) == "(":
-                        char = ")"
-                    else:
-                        char = "("
+                    char = ")" if top(parenthesis_list) == "(" else "("
                     parenthesis_list.append(char)
                 else:
                     scope_next_attempt = random.randrange(5)
@@ -97,12 +95,12 @@ class EquationGenerator:
         num_list = self.draw_numbers(self.num_of_arguments + 1 - parenthesis_num)
         self.create_equation(char_list, num_list)
 
-    def Reverse_Polish_Notation_algorithm(self):
+    def reverse_polish_notation_algorithm(self):
         stack = []
         output = []
 
         for element in self.equation:
-            if is_int(element) == True:
+            if is_int(element):
                 output.append(element)
             if element == "+" or element == "-":
                 if top(stack) == "+" or top(stack) == "-" or top(stack) == "*" or top(stack) == "/" or top(stack) == "^":
@@ -132,13 +130,11 @@ class EquationGenerator:
 
         self.Reverse_Polish_Notation_equation = output
 
-    def compute_Reverse_Polish_Notation(self):
+    def compute_reverse_polish_notation(self):
         output = []
-        a = 0
-        b = 0
 
         for element in self.Reverse_Polish_Notation_equation:
-            if is_int(element) == True:
+            if is_int(element):
                 output.append(float(element))
             if element == "+":
                 a = top(output)
@@ -184,8 +180,8 @@ class EquationGenerator:
                 self.equation.remove(element)
                 have_parentheses = True
 
-        self.Reverse_Polish_Notation_algorithm()
-        self.compute_Reverse_Polish_Notation()
+        self.reverse_polish_notation_algorithm()
+        self.compute_reverse_polish_notation()
 
         if self.solution == saved_solution and have_parentheses:
             self.solution = saved_solution
@@ -199,8 +195,8 @@ class EquationGenerator:
             return False
 
     def handle_exceptions(self):
-        if self.solution >= self.min_value and self.solution <= self.max_value and int(self.solution) == float(self.solution) and\
-                self.check_solution_after_deleting_parentheses() == False:
+        if self.solution in range(self.min_value, self.max_value) and int(self.solution) == float(self.solution) and\
+                self.check_solution_after_deleting_parentheses() is False:
             return True
         else:
             return False

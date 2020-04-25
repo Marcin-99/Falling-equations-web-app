@@ -9,8 +9,8 @@ def generate_equation(request, n=1):
     min_value = -50
     max_value = 50
     generator = main_loop(n, min_value, max_value)
-
     data = {'equation list': generator.equation, 'equation string': generator.equation_string}
+
     return JsonResponse({'data': data})
 
 

@@ -30,8 +30,7 @@ class GamesView(ListView):
                 data.append(games[0])
 
         data = sorted(data, key=operator.attrgetter("score"), reverse=True)
-        if len(data) > 50:
-            data = data[:50]
+        data = data[:50]
 
         return data
 

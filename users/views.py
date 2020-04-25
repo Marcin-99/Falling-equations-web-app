@@ -39,11 +39,10 @@ def profile(request):
     current_user = request.user
     games = Game.objects.filter(author=current_user).order_by('-score')
 
-    if len(games) > 5:
-        i = 5
-        while i < len(games):
-            games[i].delete()
-            i += 1
+    for game in games[5:]:
+        game.delete()
+
+    """Records don't delete themselves in current view, so for current view I additionally slice games list."""
     games = games[:5]
 
     context = {
