@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView
 from .models import Game
 import json
+from jsonschema import validate
 import operator
 
 
@@ -42,9 +43,23 @@ def about(request):
 @login_required
 def save_game(request):
     if request.method == 'POST':
+        schema = {
+            "type": "object",
+            "properties": {
+                "level": {"type": "number"},
+                "score": {"type": "number"},
+                "last_equation": {"type": "string"},
+            },
+        }
         data = json.loads(request.body.decode('utf-8'))
-        Game.objects.create(author=request.user, level=data['level'],
-                            score=data['score'], last_equation=data['last_equation'])
-        return HttpResponse(status=201)
-    else:
-        return HttpResponse(status=200)
+
+        try:
+            validate(instance=data, schema=schema)
+            Game.objects.create(author=request.user, level=data['level'],
+                                score=data['score'], last_equation=data['last_equation'])
+            return HttpResponse(status=201)
+
+        except:
+            return HttpResponse(status=400)
+
+    return HttpResponse(status=204)
