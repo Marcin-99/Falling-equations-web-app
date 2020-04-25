@@ -1,2 +1,6 @@
 .idea/
+.env/
+.htmlcov/
 db.sqlite3
+.coverage
+.pytest_cache
