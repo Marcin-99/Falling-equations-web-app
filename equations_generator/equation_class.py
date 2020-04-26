@@ -140,7 +140,6 @@ class EquationGenerator:
 
     def compute_reverse_polish_notation(self):
         output = []
-
         for element in self.Reverse_Polish_Notation_equation:
             if type(element) is int:
                 output.append(float(element))
