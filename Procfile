@@ -1,0 +1,1 @@
+web: gunicorn Falling_equations_web_app.wsgi
