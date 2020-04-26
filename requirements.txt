@@ -6,8 +6,10 @@ botocore==1.15.42
 colorama==0.4.3
 coverage==5.1
 DateTime==4.3
+dj-database-url==0.5.0
 Django==3.0.5
 django-crispy-forms==1.9.0
+django-heroku==0.3.1
 django-storages==1.9.1
 docutils==0.15.2
 Faker==0.9.1
@@ -34,4 +36,5 @@ sqlparse==0.3.1
 text-unidecode==1.2
 urllib3==1.25.9
 wcwidth==0.1.9
+whitenoise==5.0.1
 zope.interface==5.1.0
