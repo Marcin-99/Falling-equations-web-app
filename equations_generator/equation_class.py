@@ -2,6 +2,16 @@ from equations_generator.utilities import top, last, is_int
 import random
 
 
+'''
+Class where all algorithms work togetherer to get logically complex equation.
+The most unhandy cases are covered, such as:
+- big numbers after power char (^)
+- logic for putting parentheses in right places
+- rerolling whenever parentheses don't have an impact for a final solution
+There is one uncovered case:
+- sometimes solution for part of a equation is so small, that program will not notice it. Example:
+1/(9*9)^3 will be evaluated as 0.
+'''
 class EquationGenerator:
 
     def __init__(self, num_of_arguments, min_value, max_value):
@@ -53,9 +63,7 @@ class EquationGenerator:
         return chars_list
 
     def draw_numbers(self, num):
-        num_list = []
-        for i in range(num):
-            num_list.append(random.randrange(1, 10))
+        num_list = [random.randrange(1, 10) for i in range(num)]
 
         return num_list
 

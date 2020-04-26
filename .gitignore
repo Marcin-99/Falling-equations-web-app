@@ -1,6 +1,6 @@
 .idea/
 .env/
 .htmlcov/
-db.sqlite3
+.pytest_cache/
 .coverage
-.pytest_cache
+db.sqlite3
