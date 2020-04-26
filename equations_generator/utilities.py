@@ -14,8 +14,8 @@ def last(list, i):
         return None
 
 
-def is_int(var):
+def change_for_int(var):
     if type(var) is int:
-        return True
+        return int(var)
     else:
-        return False
+        return None

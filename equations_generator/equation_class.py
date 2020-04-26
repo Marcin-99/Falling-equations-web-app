@@ -1,4 +1,4 @@
-from equations_generator.utilities import top, last, is_int
+from equations_generator.utilities import top, last, change_for_int
 import random
 
 
@@ -85,10 +85,10 @@ class EquationGenerator:
             self.equation.append(top(num_list))
 
         for i in range(len(self.equation)):
-            if self.equation[i - 1] == "^" and self.equation[i] != "(" and self.equation[i] != ")" and is_int(self.equation[i] > 3):
+            if self.equation[i-1] == "^" and self.equation[i] != "(" and self.equation[i] != ")" and change_for_int(self.equation[i]) > 3:
                 self.equation[i] = random.randrange(4)
-            if self.equation[i] == "^" and self.equation[i] != "(" and self.equation[i] != ")" and is_int(self.equation[i - 1]) > 5:
-                self.equation[i - 1] = random.randrange(3, 6)
+            if self.equation[i] == "^" and self.equation[i] != "(" and self.equation[i] != ")" and change_for_int(self.equation[i-1]) > 5:
+                self.equation[i-1] = random.randrange(3, 6)
 
         self.equation.append("=")
 
@@ -108,7 +108,7 @@ class EquationGenerator:
         output = []
 
         for element in self.equation:
-            if is_int(element):
+            if type(element) is int:
                 output.append(element)
             if element == "+" or element == "-":
                 if top(stack) == "+" or top(stack) == "-" or top(stack) == "*" or top(stack) == "/" or top(stack) == "^":
@@ -142,7 +142,7 @@ class EquationGenerator:
         output = []
 
         for element in self.Reverse_Polish_Notation_equation:
-            if is_int(element):
+            if type(element) is int:
                 output.append(float(element))
             if element == "+":
                 a = top(output)
