@@ -25,7 +25,7 @@ const sendHttpRequest = (method, url, data) => {
 
 export function saveGame (level, score, lastEquation) {
     const sendData = () => {
-        sendHttpRequest('POST', 'http://127.0.0.1:8000/save', {
+        sendHttpRequest('POST', 'https://falling-equations.herokuapp.com/save', {
             'level': level,
             'score': score,
             'last_equation': lastEquation
@@ -39,7 +39,7 @@ export function saveGame (level, score, lastEquation) {
 /*Get json response from given url, where Python script generates and solves random equation.*/
 /*Function waits untill process is resolved, then it calls pushNewEnemy() function.*/
 export function getRandomEquation(LVL, GAME_WIDTH, GAME_HEIGHT, EnemyClass, enemies) {
-    const url = 'http://127.0.0.1:8000/equation/n=' + LVL.toString();
+    const url = 'https://falling-equations.herokuapp.com/equation/n=' + LVL.toString();
 
     sendHttpRequest('GET', url).then(responseData => {
         const data = responseData["data"]["equation list"];
