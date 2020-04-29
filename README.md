@@ -2,7 +2,7 @@
 
 ***About the project:***
 
-A game I've had an idea for over a year, combined with typical CRUD functionality.
+A game of my idea, combined with typical CRUD functionality.
 
 ***Technologies:***
 - Framework: django
