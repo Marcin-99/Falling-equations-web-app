@@ -1,6 +1,6 @@
 # Falling-equations-web-app
 
-About the project:
+***About the project:***
 - Framework: django
 - Tests: pytest
 - Deployed: Heroku
@@ -8,7 +8,7 @@ About the project:
 - Images and sound effects storage: AWS S3
 - Live: https://falling-equations.herokuapp.com/
 
-Main goals of the project:
+***Main goals of the project:***
 - Learn JavaScript
 - Learn django
 - Learn how to work with async code (Python and Javascript at the same time)
