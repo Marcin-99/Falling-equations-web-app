@@ -21,15 +21,8 @@ export default class Player {
         this.playerImage = document.getElementById("sourceProfileImage");
     }
 
-    draw(ctx) {
-        /*ctx.beginPath();
-        ctx.moveTo(this.position.x + 25, this.position.y);
-        ctx.lineTo(this.position.x + 50, this.position.y + 50);
-        ctx.lineTo(this.position.x, this.position.y + 50);
-        ctx.lineTo(this.position.x + 25, this.position.y);
-        ctx.fillStyle = "#00994d";
-        ctx.fill();*/
 
+    draw(ctx) {
         ctx.save();
         ctx.beginPath();
         ctx.arc(this.position.x + 26, this.position.y + 40, 40, 0, Math.PI * 2, true);

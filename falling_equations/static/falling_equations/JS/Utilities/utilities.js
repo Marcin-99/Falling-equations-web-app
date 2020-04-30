@@ -40,11 +40,9 @@ export function checkSolutions(projectile, enemy)
 
 
 export function setIntervalLimited(callback, interval, x, LVL, GAME_WIDTH, GAME_HEIGHT, Enemy, enemies) {
-
     for (let i = 0; i < x; i++) {
         setTimeout(callback, i * interval, LVL, GAME_WIDTH, GAME_HEIGHT, Enemy, enemies);
     }
-
 }
 
 
@@ -75,6 +73,7 @@ export function getDirectionForEveryFragment(equationLength, i) {
             break;
         }
     }
+
     else {
         switch (i) {
             case 0:
@@ -104,12 +103,14 @@ export function getCookie(name) {
             }
         }
     }
+
     return cookieValue;
 }
 
 
 export function getMousePos(canvas, evt) {
     var rect = canvas.getBoundingClientRect();
+
     return {
         x: evt.clientX - rect.left,
         y: evt.clientY - rect.top

@@ -18,8 +18,8 @@ export default class explosiveBomb {
 
     update (mousePos) {
         if (this.isDragged) {
-        this.position.x = mousePos.x - 50;
-        this.position.y = mousePos.y - 50;
+            this.position.x = mousePos.x - 50;
+            this.position.y = mousePos.y - 50;
         }
     }
 }

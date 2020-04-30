@@ -180,16 +180,3 @@ export default class inputHandler {
         }, false);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

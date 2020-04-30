@@ -1,11 +1,12 @@
-let usernames = document.getElementsByClassName("usernameInTable");
+let userNames = document.getElementsByClassName("usernameInTable");
 
-for (let i = 0; i < usernames.length; i++)
+for (let i = 0; i < userNames.length; i++)
 {
-    let username = usernames[i].getAttribute("value")
+    let username = userNames[i].getAttribute("value")
     if (username.length > 14) {
         username = username.slice(0, 14);
         username += "...";
     }
-    usernames[i].innerHTML = username;
+
+    userNames[i].innerHTML = username;
 }

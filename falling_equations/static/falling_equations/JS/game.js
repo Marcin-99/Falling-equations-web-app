@@ -12,8 +12,6 @@ import {saveGame, getRandomEquation} from "./Utilities/ajax.js";
 
 export default class Game {
     constructor(ctx, canvas, GAME_WIDTH, GAME_HEIGHT) {
-        this.gameState = "MENU";
-        this.gameStarted = false;
         this.ctx = ctx;
         this.GAME_WIDTH = GAME_WIDTH;
         this.GAME_HEIGHT = GAME_HEIGHT;
@@ -22,20 +20,23 @@ export default class Game {
         this.fragments = [];
         this.explosiveBombs = [];
         this.freezingBombs = [];
+        this.backgroundMusic = document.getElementById("backgroundMusic");
+        this.enemyHitSound = document.getElementById("enemyHit");
+        this.lostHealthSound = document.getElementById("lostHealth");
+        this.backgroundMusic.loop = true;
+        this.isMusicPlayed = false;
+        this.gameStarted = false;
+        this.isMusicPlayed = false;
         this.LVL = 1;
         this.points = 0;
         this.equationCounter = 0;
         this.lastTime = 0;
-        this.player = new Player(GAME_WIDTH, GAME_HEIGHT);
-        this.backgroundMusic = document.getElementById("backgroundMusic");
-        this.backgroundMusic.loop = true;
-        this.enemyHitSound = document.getElementById("enemyHit");
-        this.lostHealthSound = document.getElementById("lostHealth");
-        this.isMusicPlayed = false;
+        this.gameState = "MENU";
         this.lastEquation = "";
+
+        this.player = new Player(GAME_WIDTH, GAME_HEIGHT);
         this.explosiveBombs.push(new explosiveBomb(10, 180));
         this.freezingBombs.push(new freezingBomb(18, 300));
-
         new inputHandler(this.player, this.projectiles, this, canvas, this.explosiveBombs, this.freezingBombs, this.enemies, this.enemyHitSound);
         this.startGameLoop();
     }
@@ -185,7 +186,7 @@ export default class Game {
     manageCollisionsBetweenProjectilesAndEnemies () {
         for (let i = 0; i < this.projectiles.length; i++)
         {
-            /*Checking all collisions between enemies and projectiles*/
+            /*Managing collisions between enemies and projectiles.*/
             for(let j = 0; j < this.enemies.length; j++)
             {
                 if (isCollision(this.projectiles[i], this.enemies[j]))
