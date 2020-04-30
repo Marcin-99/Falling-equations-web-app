@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.http import JsonResponse
 from django.contrib import messages
 from .forms import GeneratorForm
@@ -21,9 +21,13 @@ def generator(request):
             n = form.cleaned_data.get('num_of_operands')
             min_value = form.cleaned_data.get('min')
             max_value = form.cleaned_data.get('max')
-            generator = main_loop(n, min_value, max_value)
-            equation = generator.equation_string
-            return render(request, 'equations_generator/equation.html', {'equation': equation})
+
+            if min_value >= max_value:
+                messages.info(request, f'Maximum solution value can not be greater or equal to solution value.')
+            else:
+                generator = main_loop(n, min_value, max_value)
+                equation = generator.equation_string
+                return render(request, 'equations_generator/equation.html', {'equation': equation})
 
     else:
         form = GeneratorForm()
