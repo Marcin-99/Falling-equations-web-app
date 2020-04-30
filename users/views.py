@@ -20,27 +20,23 @@ def register(request):
 
 @login_required
 def profile(request):
-    if request.method == 'POST':
-        user_form = UserUpdateForm(request.POST, instance=request.user)
-        profile_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
+    maybe_post = None if not request.POST else request.POST
 
-        if user_form.is_valid() and profile_form.is_valid():
-            user_form.save()
-            profile_form.save()
-            messages.success(request, f'Your account has been updated.')
-            return redirect('profile')
+    user_form = UserUpdateForm(maybe_post, instance=request.user)
+    profile_form = ProfileUpdateForm(maybe_post, request.FILES, instance=request.user.profile)
 
-    else:
-        user_form = UserUpdateForm(instance=request.user)
-        profile_form = ProfileUpdateForm()
+    if user_form.is_valid() and profile_form.is_valid():
+        user_form.save()
+        profile_form.save()
+        messages.success(request, f'Your account has been updated.')
+        return redirect('profile')
 
-    current_user = request.user
-    games = Game.objects.filter(author=current_user).order_by('-score')
+    games = Game.objects.filter(author=request.user).order_by('-score')
 
     for game in games[5:]:
         game.delete()
 
-    """Records don't delete themselves in current view, so for current view I additionally slice games list."""
+    """Records don't delete themselves in current view, so for current view script additionally slice games list."""
     games = games[:5]
 
     context = {
