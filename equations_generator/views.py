@@ -15,20 +15,18 @@ def generate_equation(request, n=1):
 
 
 def generator(request):
-    if request.method == 'POST':
-        form = GeneratorForm(request.POST)
-        if form.is_valid():
-            n = form.cleaned_data.get('num_of_operands')
-            min_value = form.cleaned_data.get('min')
-            max_value = form.cleaned_data.get('max')
+    maybe_post = None if not request.POST else request.POST
+    form = GeneratorForm(maybe_post)
 
-            if min_value >= max_value:
-                messages.info(request, f'Minimum solution value can not be greater or equal to maximum solution value.')
-            else:
-                generator = main_loop(n, min_value, max_value)
-                return render(request, 'equations_generator/equation.html', {'equation': generator.equation_string})
+    if maybe_post and form.is_valid():
+        n = form.cleaned_data.get('num_of_operands')
+        min_value = form.cleaned_data.get('min')
+        max_value = form.cleaned_data.get('max')
 
-    else:
-        form = GeneratorForm()
+        if min_value >= max_value:
+            messages.info(request, f'Minimum solution value can not be greater or equal to maximum solution value.')
+        else:
+            generator = main_loop(n, min_value, max_value)
+            return render(request, 'equations_generator/equation.html', {'equation': generator.equation_string})
 
     return render(request, 'equations_generator/generator.html', {'form': form})
