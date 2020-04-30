@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_http_methods
 from django.views.generic import ListView
 from .models import Game
 from jsonschema import validate
@@ -10,10 +11,12 @@ import operator
 
 
 @login_required
+@require_http_methods(["GET"])
 def home(request):
     return render(request, 'falling_equations/home.html')
 
 
+@require_http_methods(["GET"])
 def about(request):
     return render(request, 'falling_equations/about.html')
 
@@ -40,21 +43,19 @@ class GamesView(ListView):
 
 
 @login_required
+@require_http_methods(["POST"])
 def save_game(request):
-    if request.method == 'POST':
-        with open('falling_equations/save_game_schema.json', 'r') as file:
-            schema = json.load(file)
-            data = json.loads(request.body.decode('utf-8'))
+    with open('falling_equations/save_game_schema.json', 'r') as file:
+        schema = json.load(file)
+        data = json.loads(request.body.decode('utf-8'))
 
-        try:
-            validate(instance=data, schema=schema)
-            Game.objects.create(author=request.user,
-                                level=data['level'],
-                                score=data['score'],
-                                last_equation=data['last_equation'])
-            return HttpResponse(status=201)
+    try:
+        validate(instance=data, schema=schema)
+        Game.objects.create(author=request.user,
+                            level=data['level'],
+                            score=data['score'],
+                            last_equation=data['last_equation'])
+        return HttpResponse(status=201)
 
-        except:
-            return HttpResponse(status=400)
-
-    return HttpResponse(status=204)
+    except:
+        return HttpResponse(status=400)

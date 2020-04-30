@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_http_methods
 from .forms import UserRegistrationForm, UserUpdateForm, ProfileUpdateForm
 from falling_equations.models import Game
 
 
+@require_http_methods(["GET", "POST"])
 def register(request):
     maybe_post = None if not request.POST else request.POST
     form = UserRegistrationForm(maybe_post)
@@ -19,6 +21,7 @@ def register(request):
 
 
 @login_required
+@require_http_methods(["GET", "POST"])
 def profile(request):
     maybe_post = None if not request.POST else request.POST
 

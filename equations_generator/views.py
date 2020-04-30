@@ -1,3 +1,4 @@
+from django.views.decorators.http import require_http_methods
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.contrib import messages
@@ -5,6 +6,7 @@ from .forms import GeneratorForm
 from .generator_loop import main_loop
 
 
+@require_http_methods(["GET"])
 def generate_equation(request, n=1):
     min_value = -50
     max_value = 50
@@ -14,6 +16,7 @@ def generate_equation(request, n=1):
     return JsonResponse({'data': data})
 
 
+@require_http_methods(["GET", "POST"])
 def generator(request):
     maybe_post = None if not request.POST else request.POST
     form = GeneratorForm(maybe_post)
