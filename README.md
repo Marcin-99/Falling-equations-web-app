@@ -7,7 +7,7 @@ A game of my idea, combined with typical CRUD functionality.
 Live: https://falling-equations.herokuapp.com/
 
 ***Technologies:***
-- Framework: django
+- Web framework: django
 - Tests: pytest
 - Deployed: Heroku
 - Database: Postgres
