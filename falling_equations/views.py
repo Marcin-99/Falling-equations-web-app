@@ -14,6 +14,10 @@ def home(request):
     return render(request, 'falling_equations/home.html')
 
 
+def about(request):
+    return render(request, 'falling_equations/about.html')
+
+
 class GamesView(ListView):
     model = Game
     template_name = 'falling_equations/players.html'
@@ -33,10 +37,6 @@ class GamesView(ListView):
         data = data[:50]
 
         return data
-
-
-def about(request):
-    return render(request, 'falling_equations/about.html')
 
 
 @login_required

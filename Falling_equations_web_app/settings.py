@@ -61,7 +61,7 @@ ROOT_URLCONF = 'Falling_equations_web_app.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'Falling_equations_web_app', 'layout')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

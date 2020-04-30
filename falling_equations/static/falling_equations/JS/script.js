@@ -14,7 +14,5 @@ if (window.innerWidth < 1200) {
 document.getElementById("canvas").width = GAME_WIDTH;
 document.getElementById("canvas").height = GAME_HEIGHT;
 
-let gameState = "GAME";
-
 
 new Game(ctx, canvas, GAME_WIDTH, GAME_HEIGHT);
