@@ -18,7 +18,7 @@ def generator(request):
     maybe_post = None if not request.POST else request.POST
     form = GeneratorForm(maybe_post)
 
-    if maybe_post and form.is_valid():
+    if form.is_valid():
         n = form.cleaned_data.get('num_of_operands')
         min_value = form.cleaned_data.get('min')
         max_value = form.cleaned_data.get('max')

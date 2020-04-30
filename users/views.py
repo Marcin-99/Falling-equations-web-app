@@ -6,16 +6,14 @@ from falling_equations.models import Game
 
 
 def register(request):
-    if request.method == 'POST':
-        form = UserRegistrationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
-            messages.success(request, f'Account for {username} createrd succesfully! You are now able to log in.')
-            return redirect('login')
+    maybe_post = None if not request.POST else request.POST
+    form = UserRegistrationForm(maybe_post)
 
-    else:
-        form = UserRegistrationForm()
+    if form.is_valid():
+        form.save()
+        username = form.cleaned_data.get('username')
+        messages.success(request, f'Account for {username} createrd succesfully! You are now able to log in.')
+        return redirect('login')
 
     return render(request, 'users/register.html', {'form': form})
 

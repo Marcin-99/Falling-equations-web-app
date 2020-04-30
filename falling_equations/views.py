@@ -42,8 +42,8 @@ class GamesView(ListView):
 @login_required
 def save_game(request):
     if request.method == 'POST':
-        with open('falling_equations/save_game_schema.json', 'r') as f:
-            schema = json.load(f)
+        with open('falling_equations/save_game_schema.json', 'r') as file:
+            schema = json.load(file)
             data = json.loads(request.body.decode('utf-8'))
 
         try:
