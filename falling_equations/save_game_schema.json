@@ -1,0 +1,15 @@
+{
+  "type": "object",
+  "properties": {
+    "level": {
+      "type": "number"
+    },
+    "score": {
+      "type": "number"
+    },
+    "last_equation": {
+      "type": "string"
+    }
+  },
+  "required": ["level", "score", "last_equation"]
+}

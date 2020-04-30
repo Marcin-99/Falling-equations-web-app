@@ -4,8 +4,9 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView
 from .models import Game
-import json
 from jsonschema import validate
+import json
+import os
 import operator
 
 
@@ -42,15 +43,9 @@ def about(request):
 @login_required
 def save_game(request):
     if request.method == 'POST':
-        schema = {
-            "type": "object",
-            "properties": {
-                "level": {"type": "number"},
-                "score": {"type": "number"},
-                "last_equation": {"type": "string"},
-            },
-        }
-        data = json.loads(request.body.decode('utf-8'))
+        with open('falling_equations/save_game_schema.json', 'r') as f:
+            schema = json.load(f)
+            data = json.loads(request.body.decode('utf-8'))
 
         try:
             validate(instance=data, schema=schema)
