@@ -3,4 +3,5 @@
 .htmlcov/
 .pytest_cache/
 .coverage
+.staticfiles
 db.sqlite3
