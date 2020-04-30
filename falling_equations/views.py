@@ -6,7 +6,6 @@ from django.views.generic import ListView
 from .models import Game
 from jsonschema import validate
 import json
-import os
 import operator
 
 
@@ -49,8 +48,10 @@ def save_game(request):
 
         try:
             validate(instance=data, schema=schema)
-            Game.objects.create(author=request.user, level=data['level'],
-                                score=data['score'], last_equation=data['last_equation'])
+            Game.objects.create(author=request.user,
+                                level=data['level'],
+                                score=data['score'],
+                                last_equation=data['last_equation'])
             return HttpResponse(status=201)
 
         except:

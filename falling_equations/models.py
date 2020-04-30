@@ -13,7 +13,7 @@ class Game(models.Model):
     date_played = models.DateTimeField(default=make_aware(datetime.datetime.now()))
 
     def __str__(self):
-        return f"It is a game record with score equal to {self.score}."
+        return f"Game record with score equal to {self.score}."
 
     def get_absolute_url(self):
         return reverse('profile')
