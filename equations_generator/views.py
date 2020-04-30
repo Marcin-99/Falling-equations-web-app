@@ -26,8 +26,7 @@ def generator(request):
                 messages.info(request, f'Maximum solution value can not be greater or equal to solution value.')
             else:
                 generator = main_loop(n, min_value, max_value)
-                equation = generator.equation_string
-                return render(request, 'equations_generator/equation.html', {'equation': equation})
+                return render(request, 'equations_generator/equation.html', {'equation': generator.equation_string})
 
     else:
         form = GeneratorForm()
