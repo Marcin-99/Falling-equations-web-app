@@ -1,17 +1,20 @@
-from equations_generator.utilities import top, last, change_for_int
 import random
-
+from .utilities import top, last, change_for_int
+from .reverse_polish_notation_algorithm import reverse_polish_notation_algorithm as rpn_algorithm, \
+    compute_reverse_polish_notation as compute_rpn
 
 '''
 Class where all algorithms work togetherer to get logically complex equation.
 The most unhandy cases are covered, such as:
 - big numbers after power char (^)
 - logic for putting parentheses in right places
-- rerolling whenever parentheses don't have an impact for a final solution
+- reroll whenever parentheses don't have an impact for a final solution
 There is one uncovered case:
 - sometimes solution for part of a equation is so small, that program will not notice it. Example:
 1/(9*9)^3 will be evaluated as 0.
 '''
+
+
 class EquationGenerator:
 
     def __init__(self, num_of_arguments, min_value, max_value):
@@ -19,9 +22,20 @@ class EquationGenerator:
         self.min_value = min_value
         self.max_value = max_value
         self.equation = []
-        self.Reverse_Polish_Notation_equation = []
+        self.reverse_polish_notation_equation = []
         self.equation_string = ""
         self.solution = ""
+
+    def generate_equation(self):
+        char_list = self.draw_chars()
+
+        parenthesis_num = 0
+        for char in char_list:
+            if char == ")" or char == "(":
+                parenthesis_num += 1
+
+        num_list = self.draw_numbers(self.num_of_arguments + 1 - parenthesis_num)
+        self.create_equation(char_list, num_list)
 
     def draw_chars(self):
         chars_list = []
@@ -63,8 +77,7 @@ class EquationGenerator:
         return chars_list
 
     def draw_numbers(self, num):
-        num_list = [random.randrange(1, 10) for i in range(num)]
-
+        num_list = [random.randrange(1, 10) for _ in range(num)]
         return num_list
 
     def create_equation(self, char_list, num_list):
@@ -85,97 +98,14 @@ class EquationGenerator:
             self.equation.append(top(num_list))
 
         for i in range(len(self.equation)):
-            if self.equation[i-1] == "^" and self.equation[i] != "(" and self.equation[i] != ")" and change_for_int(self.equation[i]) > 3:
+            if self.equation[i - 1] == "^" and self.equation[i] != "(" and self.equation[i] != ")" and change_for_int(
+                    self.equation[i]) > 3:
                 self.equation[i] = random.randrange(4)
-            if self.equation[i] == "^" and self.equation[i] != "(" and self.equation[i] != ")" and change_for_int(self.equation[i-1]) > 5:
-                self.equation[i-1] = random.randrange(3, 6)
+            if self.equation[i] == "^" and self.equation[i] != "(" and self.equation[i] != ")" and change_for_int(
+                    self.equation[i - 1]) > 5:
+                self.equation[i - 1] = random.randrange(3, 6)
 
         self.equation.append("=")
-
-    def generate_equation(self):
-        char_list = self.draw_chars()
-
-        parenthesis_num = 0
-        for char in char_list:
-            if char == ")" or char == "(":
-                parenthesis_num += 1
-
-        num_list = self.draw_numbers(self.num_of_arguments + 1 - parenthesis_num)
-        self.create_equation(char_list, num_list)
-
-    def reverse_polish_notation_algorithm(self):
-        stack = []
-        output = []
-
-        for element in self.equation:
-            if type(element) is int:
-                output.append(element)
-            if element == "+" or element == "-":
-                if top(stack) == "+" or top(stack) == "-" or top(stack) == "*" or top(stack) == "/" or top(stack) == "^":
-                    while top(stack) == "+" or top(stack) == "-" or top(stack) == "*" or top(stack) == "/" or top(stack) == "^":
-                        output.append(top(stack))
-                        stack.pop()
-                stack.append(element)
-            if element == "*" or element == "/":
-                if top(stack) == "*" or top(stack) == "/" or top(stack) == "^":
-                    while top(stack) == "*" or top(stack) == "/" or top(stack) == "^":
-                        output.append(top(stack))
-                        stack.pop()
-                stack.append(element)
-            if element == "^":
-                stack.append(element)
-            if element == "=":
-                while top(stack) == "+" or top(stack) == "-" or top(stack) == "*" or top(stack) == "/" or top(stack) == "^":
-                    output.append(top(stack))
-                    stack.pop()
-            if element == "(":
-                stack.append(element)
-            if element == ")":
-                while top(stack) != "(":
-                    output.append(top(stack))
-                    stack.pop()
-                stack.pop()
-
-        self.Reverse_Polish_Notation_equation = output
-
-    def compute_reverse_polish_notation(self):
-        output = []
-        for element in self.Reverse_Polish_Notation_equation:
-            if type(element) is int:
-                output.append(float(element))
-            if element == "+":
-                a = top(output)
-                output.pop()
-                b = top(output)
-                output.pop()
-                output.append(b + a)
-            if element == "-":
-                a = top(output)
-                output.pop()
-                b = top(output)
-                output.pop()
-                output.append(b - a)
-            if element == "*":
-                a = top(output)
-                output.pop()
-                b = top(output)
-                output.pop()
-                output.append(b * a)
-            if element == "/":
-                a = top(output)
-                output.pop()
-                b = top(output)
-                output.pop()
-                output.append(b / a)
-            if element == "^":
-                a = top(output)
-                output.pop()
-                b = top(output)
-                output.pop()
-                output.append(pow(b, a))
-
-        self.solution = output[0]
-        self.equation.append(output[0])
 
     def check_solution_after_deleting_parentheses(self):
         saved_solution = self.solution
@@ -187,8 +117,8 @@ class EquationGenerator:
                 self.equation.remove(element)
                 have_parentheses = True
 
-        self.reverse_polish_notation_algorithm()
-        self.compute_reverse_polish_notation()
+        self.reverse_polish_notation_equation = rpn_algorithm(self.equation)
+        self.solution = compute_rpn(self.reverse_polish_notation_equation)
 
         if self.solution == saved_solution and have_parentheses:
             self.solution = saved_solution
@@ -202,7 +132,7 @@ class EquationGenerator:
             return False
 
     def handle_exceptions(self):
-        if self.solution in range(self.min_value, self.max_value) and int(self.solution) == float(self.solution) and\
+        if self.solution in range(self.min_value, self.max_value) and int(self.solution) == float(self.solution) and \
                 self.check_solution_after_deleting_parentheses() is False:
             return True
         else:
