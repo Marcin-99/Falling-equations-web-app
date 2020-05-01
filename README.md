@@ -2,7 +2,8 @@
 
 ***About the project:***
 
-A game of my idea, combined with typical CRUD functionality.
+A game of my idea, combined with typical CRUD functionality. 
+To see most of the vanilla JavaScript code, go to falling_equation/static/JS.
 
 Live: https://falling-equations.herokuapp.com/
 
