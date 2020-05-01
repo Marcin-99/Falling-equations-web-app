@@ -1,5 +1,4 @@
 import random
-from typing import Any, Union
 from .utilities import top, last, change_for_int
 from .reverse_polish_notation_algorithm import reverse_polish_notation_algorithm as rpn_algorithm, \
     compute_reverse_polish_notation as compute_rpn
@@ -19,9 +18,9 @@ There is one uncovered case:
 class EquationGenerator:
 
     def __init__(self, num_of_arguments, min_value, max_value):
-        self.num_of_arguments = num_of_arguments
-        self.min_value = min_value
-        self.max_value = max_value
+        self._num_of_arguments = num_of_arguments
+        self._min_value = min_value
+        self._max_value = max_value
         self.equation = []
         self.reverse_polish_notation_equation = []
         self.equation_string = ""
@@ -35,7 +34,7 @@ class EquationGenerator:
             if char == ")" or char == "(":
                 parenthesis_num += 1
 
-        num_list = self.draw_numbers(self.num_of_arguments + 1 - parenthesis_num)
+        num_list = self.draw_numbers(self._num_of_arguments + 1 - parenthesis_num)
         self.create_equation(char_list, num_list)
 
     @property
@@ -43,7 +42,7 @@ class EquationGenerator:
         chars_list = []
         parenthesis_list = []
 
-        for i in range(self.num_of_arguments):
+        for i in range(self._num_of_arguments):
             scope = random.randrange(26)
             if 0 <= scope < 4:
                 char = "+"
@@ -57,7 +56,7 @@ class EquationGenerator:
                 char = "^"
             if 17 < scope < 26:
 
-                if last(chars_list, i) != ")" and last(chars_list, i) != "(" and i < self.num_of_arguments - 2:
+                if last(chars_list, i) != ")" and last(chars_list, i) != "(" and i < self._num_of_arguments - 2:
                     char = ")" if top(parenthesis_list) == "(" else "("
                     parenthesis_list.append(char)
                 else:
@@ -72,7 +71,7 @@ class EquationGenerator:
                         char = "/"
                     if scope_next_attempt == 4:
                         char = "^"
-            if top(parenthesis_list) == "(" and i == self.num_of_arguments - 1:
+            if top(parenthesis_list) == "(" and i == self._num_of_arguments - 1:
                 char = ")"
             chars_list.append(char)
 
@@ -135,7 +134,7 @@ class EquationGenerator:
             return False
 
     def handle_exceptions(self):
-        if self.solution in range(self.min_value, self.max_value) and int(self.solution) == float(self.solution) and \
+        if self.solution in range(self._min_value, self._max_value) and int(self.solution) == float(self.solution) and \
                 self.check_solution_after_deleting_parentheses() is False:
             return True
         else:
