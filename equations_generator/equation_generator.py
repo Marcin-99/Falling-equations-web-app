@@ -27,18 +27,29 @@ class EquationGenerator:
         self.solution = ""
 
     def generate_equation(self):
-        char_list = self.draw_chars
+        char_list = self._draw_chars
 
         parenthesis_num = 0
         for char in char_list:
             if char == ")" or char == "(":
                 parenthesis_num += 1
 
-        num_list = self.draw_numbers(self._num_of_arguments + 1 - parenthesis_num)
-        self.create_equation(char_list, num_list)
+        num_list = self._draw_numbers(self._num_of_arguments + 1 - parenthesis_num)
+        self._create_equation(char_list, num_list)
+
+    def handle_exceptions(self):
+        if self.solution in range(self._min_value, self._max_value) and int(self.solution) == float(self.solution) and \
+                self._check_solution_after_deleting_parentheses() is False:
+            return True
+        else:
+            return False
+
+    def create_equation_string(self):
+        for char in self.equation:
+            self.equation_string += str(char)
 
     @property
-    def draw_chars(self):
+    def _draw_chars(self):
         chars_list = []
         parenthesis_list = []
 
@@ -78,11 +89,11 @@ class EquationGenerator:
         return chars_list
 
     @staticmethod
-    def draw_numbers(num):
+    def _draw_numbers(num):
         num_list = [random.randrange(1, 10) for _ in range(num)]
         return num_list
 
-    def create_equation(self, char_list, num_list):
+    def _create_equation(self, char_list, num_list):
         for char in char_list:
             if (char == "+" or char == "-" or char == "*" or char == "/" or char == "^") and top(self.equation) != ")":
                 self.equation.append(top(num_list))
@@ -109,7 +120,7 @@ class EquationGenerator:
 
         self.equation.append("=")
 
-    def check_solution_after_deleting_parentheses(self):
+    def _check_solution_after_deleting_parentheses(self):
         saved_solution = self.solution
         saved_equation = self.equation.copy()
         have_parentheses = False
@@ -132,14 +143,3 @@ class EquationGenerator:
             self.equation = saved_equation
             self.equation.pop()
             return False
-
-    def handle_exceptions(self):
-        if self.solution in range(self._min_value, self._max_value) and int(self.solution) == float(self.solution) and \
-                self.check_solution_after_deleting_parentheses() is False:
-            return True
-        else:
-            return False
-
-    def create_equation_string(self):
-        for char in self.equation:
-            self.equation_string += str(char)
