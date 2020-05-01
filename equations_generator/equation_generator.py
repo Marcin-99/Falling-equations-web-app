@@ -1,4 +1,5 @@
 import random
+from typing import Any, Union
 from .utilities import top, last, change_for_int
 from .reverse_polish_notation_algorithm import reverse_polish_notation_algorithm as rpn_algorithm, \
     compute_reverse_polish_notation as compute_rpn
@@ -27,7 +28,7 @@ class EquationGenerator:
         self.solution = ""
 
     def generate_equation(self):
-        char_list = self.draw_chars()
+        char_list = self.draw_chars
 
         parenthesis_num = 0
         for char in char_list:
@@ -37,23 +38,24 @@ class EquationGenerator:
         num_list = self.draw_numbers(self.num_of_arguments + 1 - parenthesis_num)
         self.create_equation(char_list, num_list)
 
+    @property
     def draw_chars(self):
         chars_list = []
         parenthesis_list = []
 
         for i in range(self.num_of_arguments):
             scope = random.randrange(26)
-            if scope >= 0 and scope < 4:
+            if 0 <= scope < 4:
                 char = "+"
-            if scope >= 4 and scope < 8:
+            if 4 <= scope < 8:
                 char = "-"
-            if scope >= 8 and scope < 12:
+            if 8 <= scope < 12:
                 char = "*"
-            if scope >= 12 and scope < 16:
+            if 12 <= scope < 16:
                 char = "/"
             if scope == 16 or scope == 17:
                 char = "^"
-            if scope > 17 and scope < 26:
+            if 17 < scope < 26:
 
                 if last(chars_list, i) != ")" and last(chars_list, i) != "(" and i < self.num_of_arguments - 2:
                     char = ")" if top(parenthesis_list) == "(" else "("
@@ -76,7 +78,8 @@ class EquationGenerator:
 
         return chars_list
 
-    def draw_numbers(self, num):
+    @staticmethod
+    def draw_numbers(num):
         num_list = [random.randrange(1, 10) for _ in range(num)]
         return num_list
 
@@ -94,7 +97,7 @@ class EquationGenerator:
                 self.equation.append(char)
             if char == "(":
                 self.equation.append(char)
-        if top(num_list) != None:
+        if top(num_list) is not None:
             self.equation.append(top(num_list))
 
         for i in range(len(self.equation)):
