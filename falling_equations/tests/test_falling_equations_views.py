@@ -40,7 +40,7 @@ class TestViews(TestCase):
         request = self.factory.get(path)
         request.user = mixer.blend(User)
         response = save_game(request)
-        assert response.status_code == 204
+        assert response.status_code == 405
 
     def test_save_game_unauthenticated(self):
         path = reverse('falling-equations-save')

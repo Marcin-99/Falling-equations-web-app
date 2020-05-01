@@ -13,7 +13,6 @@ def generator_loop(n, min_value, max_value):
         try:
             generator_obj = EquationGenerator(n, min_value, max_value)
             generator_obj.generate_equation()
-            print(generator_obj.equation)
             generator_obj.reverse_polish_notation_equation = rpn_algorithm(generator_obj.equation)
             generator_obj.solution = compute_rpn(generator_obj.reverse_polish_notation_equation)
             generator_obj.equation.append(generator_obj.solution)

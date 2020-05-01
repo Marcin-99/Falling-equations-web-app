@@ -8,4 +8,4 @@ class TestModels:
 
     def test_game_model(self):
         game = mixer.blend('falling_equations.Game', score=1450)
-        assert game.__str__() == f"It is a game record with score equal to {game.score}."
+        assert game.__str__() == f"Game record with score equal to {game.score}."
