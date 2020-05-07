@@ -13,7 +13,6 @@ Live: https://falling-equations.herokuapp.com/
 - Deployed: Heroku
 - Database: Postgres
 - Images and sound effects storage: AWS S3
-- Pixel art: https://www.pixilart.com/
 
 ***Main goals of the project:***
 - Learn JavaScript
