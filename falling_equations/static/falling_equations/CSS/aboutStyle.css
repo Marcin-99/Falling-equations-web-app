@@ -1,6 +1,17 @@
-#text {
+#title {
     font-size: 50px;
     font-family: 'Shadows Into Light', cursive;
     font-weight: bold;
-    text-decoration: underline #8c8c8c;
+}
+
+#text {
+    color: #d9d9d9;
+    font-size: 25px;
+    font-family: 'Shadows Into Light', cursive;
+    font-weight: bold;
+    max-width: 500px;
+}
+
+p {
+    margin: 30px;
 }

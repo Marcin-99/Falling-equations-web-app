@@ -6,10 +6,35 @@
 {% endblock css %}
 
 {% block content %}
+<p><span id="title">Functionality explanation: Game</span></p>
 
 <div>
-    <p><span id="text">Functionality explanation</span></p>
-    <p>"Falling Equations" game</p>
+    <div id="text">
+        <p>1. To play the game, you need to have an account and be<a href="{% url 'login' %}" class="pl-2 text-info">logged in.</a></p>
+        <p>2. Click "Game" on menubar to navigate to the game.</p>
+        <p>3. Press "Enter" and the game will start.</p>
+        <p>4. Gameplay explanation:</p>
+        <p>- Blocks with equations assigned to them fall from above. Your task is to enter the result of these equations
+            on the keyboard and then launch it into the block directions.</p>
+        <p>- When the result you enter is correct and you hit the block, the equation will explode. You will get 50 points,
+            and the equation itself will break into individual fragments. Watch out! When any of them hits you, you will lose one life. </p>
+        <p>- If you do not know the solution of the equation, and it is already very close to the bottom of the screen, just fly into it with your avatar.
+            You will lose one life and you won't get points, but you won't lose the game. When any equation goes all the way down,
+            you lose all your lives and the game is over.</p>
+        <p>- There are 2 bombs in the game: exploding and freezing. The first one, after dragging it to the equation,
+            will destroy it without having to enter the result by the player. The second one will not destroy it,
+            but will freeze: it is best to solve the frozen equation last. Freezing time is not limited.</p>
+        <p>5. General rules:</p>
+        <p>- Each level consists of three equations. The number of operands of these equations corresponds to the level.</p>
+        <p>- Every three levels, the player receives one of each type of bomb.</p>
+        <p>- The best games in terms of points will be saved in the "The Best Players" tab available to everyone.</p>
+        <p>- Game record will only be saved only when player loses all of his hit points.</p>
+        <p>6. Controls:</p>
+        <p>- Move right/left/up/down: arrows.</p>
+        <p>- Type in solution: digits on the keybord and "-" for negative numbers.</p>
+        <p>- Shoot solution: "Space bar".</p>
+        <p>- Dragging the bombs: Left mouse click and drag, then drop.</p>
+    </div>
 
 
 </div>
