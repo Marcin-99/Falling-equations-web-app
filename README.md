@@ -7,7 +7,7 @@ To see most of the vanilla JavaScript code, go to falling_equation/static/JS.
 
 Live: https://falling-equations.herokuapp.com/
 
-To read more about functionality, go to https://falling-equations.herokuapp.com/about
+More about functionality here: https://falling-equations.herokuapp.com/about
 
 ***Technologies:***
 - Web framework: django
