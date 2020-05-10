@@ -39,7 +39,7 @@ def profile(request):
     for game in games[5:]:
         game.delete()
 
-    """Records don't delete themselves in current view, so for current view script additionally slice games list."""
+    """Records don't delete themselves in current view, so for current view script additionally slices games list."""
     games = games[:5]
 
     context = {
