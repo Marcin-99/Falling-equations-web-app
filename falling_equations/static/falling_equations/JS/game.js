@@ -26,7 +26,6 @@ export default class Game {
         this.backgroundMusic.loop = true;
         this.isMusicPlayed = false;
         this.gameStarted = false;
-        this.isMusicPlayed = false;
         this.LVL = 1;
         this.points = 0;
         this.equationCounter = 0;
